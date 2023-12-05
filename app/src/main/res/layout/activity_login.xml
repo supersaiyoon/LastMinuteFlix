@@ -5,70 +5,84 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.LoginActivity">
 
     <TextView
-        android:id="@+id/welcome_display"
+        android:id="@+id/app_name_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/welcome_text"
+        android:text="@string/app_name"
         android:textSize="24sp"
+        android:textColor="@color/primaryTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/search_movies_button"
+    <TextView
+        android:id="@+id/sign_in_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/sign_in_text"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_name_display" />
+
+    <EditText
+        android:id="@+id/username_input"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginTop="32dp"
-        android:backgroundTint="@color/primaryButtonColor"
-        android:ems="9"
-        android:text="@string/search_movies_button_text"
-        android:textColor="@color/primaryTextColor"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/username_hint"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_display" />
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_display" />
 
-    <Button
-        android:id="@+id/shopping_cart_button"
+    <EditText
+        android:id="@+id/password_input"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="@color/primaryButtonColor"
-        android:ems="9"
-        android:text="@string/shopping_cart_button_text"
-        android:textColor="@color/primaryTextColor"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/password_hint"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_movies_button" />
+        app:layout_constraintTop_toBottomOf="@+id/username_input" />
 
     <Button
-        android:id="@+id/order_history_button"
+        android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:backgroundTint="@color/primaryButtonColor"
+        android:backgroundTint="@color/loginButtonColor"
         android:ems="9"
-        android:text="@string/order_history_button_text"
-        android:textColor="@color/primaryTextColor"
+        android:text="@string/log_in_button_text"
+        android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shopping_cart_button" />
+        app:layout_constraintTop_toBottomOf="@+id/password_input" />
 
     <Button
-        android:id="@+id/admin_button"
+        android:id="@+id/sign_up_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"
-        android:backgroundTint="@color/primaryButtonColor"
+        android:backgroundTint="@color/signUpButtonColor"
         android:ems="9"
-        android:text="@string/admin_button_text"
-        android:textColor="@color/primaryTextColor"
+        android:text="@string/sign_up_button_text"
+        android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

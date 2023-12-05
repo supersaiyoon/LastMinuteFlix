@@ -8,15 +8,15 @@ import com.byoon.lastminuteflix.db.AppDatabase;
 @Entity(tableName = AppDatabase.USER_TABLE)
 public class User {
   @PrimaryKey(autoGenerate = true)
-  private int userId;
+  private int mUserId;
 
-  private String username;
-  private String password;
-  private final boolean isAdmin;
+  private String mUsername;
+  private String mPassword;
+  private final boolean mIsAdmin;
 
   public User(String username, String password, boolean isAdmin) {
-    this.username = username;
-    this.password = password;
-    this.isAdmin = isAdmin;
+    this.mUsername = username;
+    this.mPassword = password;
+    this.mIsAdmin = isAdmin;
   }
 }
