@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">LastMinuteFlix</string>
+    <string name="sign_in_text">Sign In</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="log_in_button_text">Log In</string>
+    <string name="welcome_text">Welcome</string>
+    <string name="search_movies_button_text">Search Movies</string>
+    <string name="shopping_cart_button_text">Shopping Cart</string>
+    <string name="order_history_button_text">Order History</string>
+    <string name="sign_up_button_text">Sign Up</string>
+    <string name="admin_button_text">Admin</string>
 </resources>

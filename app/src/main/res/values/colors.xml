@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="loginButtonColor">#D81E5B</color>
+    <color name="backgroundColor">#FDF0D5</color>
+    <color name="primaryTextColor">#331832</color>
+    <color name="primaryButtonColor">#F0544F</color>
+    <color name="signUpButtonColor">#331832</color>
 </resources>
