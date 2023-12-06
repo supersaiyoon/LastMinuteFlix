@@ -1,10 +1,10 @@
 package com.byoon.lastminuteflix.entity;
 
 public class Movie {
-  int movieId;
-  String genre;
+  private int movieId;
+  private String genre;
 
-  String title;
-  int duration;
-  String rating;
+  private String title;
+  private int duration;
+  private String rating;
 }

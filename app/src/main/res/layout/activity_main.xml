@@ -19,13 +19,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/search_movies_button"
+        android:id="@+id/browse_movies_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="60dp"
         android:backgroundTint="@color/primaryButtonColor"
         android:ems="9"
-        android:text="@string/search_movies_button_text"
+        android:text="@string/browse_movies_button_text"
         android:textColor="@color/primaryTextColor"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_movies_button" />
+        app:layout_constraintTop_toBottomOf="@+id/browse_movies_button" />
 
     <Button
         android:id="@+id/order_history_button"
@@ -70,7 +70,22 @@
         android:text="@string/admin_button_text"
         android:textColor="@color/primaryTextColor"
         android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/signUpButtonColor"
+        android:minHeight="0dp"
+        android:text="@string/log_out_button_text"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
