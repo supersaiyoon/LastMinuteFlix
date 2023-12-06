@@ -6,6 +6,11 @@ import android.content.Intent;
 import com.byoon.lastminuteflix.ui.LoginActivity;
 import com.byoon.lastminuteflix.ui.MainActivity;
 
+/**
+ * Creates intents to go to different activities.
+ * @author Brian Yoon
+ * @since 2023-12-05
+ */
 public class IntentFactory {
   // Prevent instantiation of this class.
   private IntentFactory() {
@@ -16,7 +21,10 @@ public class IntentFactory {
     return new Intent(context, LoginActivity.class);
   }
 
-  public static Intent createMainActivityIntent(Context context) {
-    return new Intent(context, MainActivity.class);
+  public static Intent createMainActivityIntent(Context context, int userId) {
+    Intent intent = new Intent(context, MainActivity.class);
+    String intentExtraKey = IntentKeys.USER_ID_KEY.getKey();
+    intent.putExtra(intentExtraKey, userId);
+    return intent;
   }
 }
