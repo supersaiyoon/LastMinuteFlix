@@ -29,6 +29,8 @@ import java.util.List;
  * @since 2023-12-05
  */
 public class MainActivity extends AppCompatActivity {
+  private static final int NO_USER_LOGGED_IN = -1;
+
   private TextView welcomeMessageTextView;
 
   private Button mBrowseMoviesButton;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
   private Button mAdminButton;
   private Button mLogOutButton;
 
-  private int mUserId = -1;
+  private int mUserId = NO_USER_LOGGED_IN;
   private User mUser;
 
   private UserDAO mUserDAO;
@@ -52,8 +54,10 @@ public class MainActivity extends AppCompatActivity {
     getDatabase();
 
     // Retrieve username from User with userId.
-    int userId = getIntent().getIntExtra(IntentKeys.USER_ID_KEY.getKey(), -1);
+    int userId = getIntent().getIntExtra(IntentKeys.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
+
     logInUser(userId);
+
     String username = mUserDAO.getUserById(userId).getUsername();
 
     // Update welcome message TextView.
@@ -67,8 +71,6 @@ public class MainActivity extends AppCompatActivity {
     checkForUser();
 
     addUserToPreferences(mUserId);
-
-    // Check if user is admin to determine if admin button should be visible.
   }
 
   private void wireUpDisplay() {
@@ -78,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
     mAdminButton = findViewById(R.id.admin_button);
     mLogOutButton = findViewById(R.id.logout_button);
 
-    mAdminButton.setVisibility(View.INVISIBLE);
     // Show admin button only if user is admin.
+    mAdminButton.setVisibility(View.INVISIBLE);
     if (mUser.isAdmin()) {
       mAdminButton.setVisibility(View.VISIBLE);
     }
@@ -104,18 +106,15 @@ public class MainActivity extends AppCompatActivity {
               public void onClick(DialogInterface dialog, int which) {
                 clearUserFromIntent();
                 clearUserFromPreferences();
-                mUserId = -1;
-                dialog.dismiss();
-
-                Intent intent = IntentFactory.createLoginActivityIntent(MainActivity.this);
-                startActivity(intent);
+                mUserId = NO_USER_LOGGED_IN;
+                checkForUser();
               }
             });
     alertBuilder.setNegativeButton(getString(R.string.log_out_dialog_negative_button),
             new DialogInterface.OnClickListener() {
               @Override
               public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+                // No need to do anything here.
               }
             });
 
@@ -130,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
     }
     SharedPreferences.Editor editor = mPreferences.edit();
     editor.putInt(IntentKeys.USER_ID_KEY.getKey(), userId);
+    editor.apply();
   }
 
   private void logInUser(int userId) {
@@ -137,11 +137,11 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void clearUserFromIntent() {
-    getIntent().putExtra(IntentKeys.USER_ID_KEY.getKey(), -1);
+    getIntent().putExtra(IntentKeys.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
   }
 
   private void clearUserFromPreferences() {
-    addUserToPreferences(-1);
+    addUserToPreferences(NO_USER_LOGGED_IN);
   }
 
   private void getDatabase() {
@@ -151,10 +151,14 @@ public class MainActivity extends AppCompatActivity {
             .getUserDAO();
   }
 
+  /**
+   * Checks if there is a user logged in. If not, goes to login activity.
+   */
   private void checkForUser() {
-    // Do we have user intent?
-    mUserId = getIntent().getIntExtra(IntentKeys.USER_ID_KEY.getKey(), -1);
-    if (mUserId != -1) {
+    // Do we have user in intent?
+    mUserId = getIntent().getIntExtra(IntentKeys.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
+    if (mUserId != NO_USER_LOGGED_IN) {
+      // There is user logged in.
       return;
     }
 
@@ -163,14 +167,14 @@ public class MainActivity extends AppCompatActivity {
       getPrefs();
     }
 
-    mUserId = mPreferences.getInt(IntentKeys.USER_ID_KEY.getKey(), -1);
-    if (mUserId != -1) {
+    mUserId = mPreferences.getInt(IntentKeys.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
+    if (mUserId != NO_USER_LOGGED_IN) {
       return;
     }
 
     // Do we have any users at all?
     List<User> users = mUserDAO.getAllUsers();
-    if (users.size() <= 0) {
+    if (users.isEmpty()) {
       User defaultUser = new User("defaultuser", "password123", false);
       mUserDAO.insert(defaultUser);
     }
