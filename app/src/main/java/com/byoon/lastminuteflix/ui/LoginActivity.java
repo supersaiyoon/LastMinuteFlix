@@ -2,7 +2,6 @@ package com.byoon.lastminuteflix.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -43,20 +42,17 @@ public class LoginActivity extends AppCompatActivity {
     mLogInButton = findViewById(R.id.login_button);
 
     // Press login button to go to main activity.
-    mLogInButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if (isSuccessfulLogin()) {
-          String usernameString = mUsername.getText().toString();
-          User user = mUserDAO.getUserByUsername(usernameString);
-          int userId = user.getUserId();
-          Intent intent = IntentFactory.createMainActivityIntent(LoginActivity.this, userId);
-          startActivity(intent);
-        }
-        else {
-          // Invalid username and/or password.
-          Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
-        }
+    mLogInButton.setOnClickListener(v -> {
+      if (isSuccessfulLogin()) {
+        String usernameString = mUsername.getText().toString();
+        User user = mUserDAO.getUserByUsername(usernameString);
+        int userId = user.getUserId();
+        Intent intent = IntentFactory.createMainActivityIntent(LoginActivity.this, userId);
+        startActivity(intent);
+      }
+      else {
+        // Invalid username and/or password.
+        Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
       }
     });
   }
@@ -102,5 +98,9 @@ public class LoginActivity extends AppCompatActivity {
 
     // Check if user exists and password is correct.
     return user != null && user.getPassword().equals(password);
+  }
+
+  public UserDAO getUserDAO() {
+    return mUserDAO;
   }
 }
