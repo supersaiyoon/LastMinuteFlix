@@ -19,7 +19,6 @@ import com.byoon.lastminuteflix.ui.LoginActivity;
  */
 public class LoginActivityInstrumentedTest {
 
-
   @Test
   public void givenAppContext_whenGettingPackageName_thenVerifyCorrectPackageName() {
     // Given - Context of the app under test
@@ -39,7 +38,7 @@ public class LoginActivityInstrumentedTest {
       // When - Nothing to trigger as it's about initialization.
 
       // Then - Execute test on main thread per long debugging conversation with ChatGPT.
-      scenario.onActivity(activity -> assertNotNull(activity.getUserDAO()));
+      scenario.onActivity(activity -> assertNotNull(activity.getUserDao()));
     }
   }
 
@@ -50,7 +49,7 @@ public class LoginActivityInstrumentedTest {
       // When - Nothing to trigger as it's about initialization.
 
       // Then - Database should have predefined users.
-      scenario.onActivity(activity -> assertTrue(activity.getUserDAO().getAllUsers().size() > 0));
+      scenario.onActivity(activity -> assertTrue(activity.getUserDao().getAllUsers().size() > 0));
     }
   }
 
@@ -63,7 +62,7 @@ public class LoginActivityInstrumentedTest {
       // Then - Database should have predefined admin user per project use case.
       scenario.onActivity(activity -> {
         boolean hasAdminUser = false;
-        for (User user : activity.getUserDAO().getAllUsers()) {
+        for (User user : activity.getUserDao().getAllUsers()) {
           if (user.isAdmin()) {
             hasAdminUser = true;
             break;
