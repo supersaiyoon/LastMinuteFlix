@@ -7,7 +7,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import com.byoon.lastminuteflix.R;
 import com.byoon.lastminuteflix.db.AppDatabase;
@@ -78,10 +77,8 @@ public class LoginActivity extends AppCompatActivity {
   }
 
   private void initializeDatabase() {
-    mUserDao = Room.databaseBuilder(this, AppDatabase.class, AppDatabase.DB_NAME)
-        .allowMainThreadQueries()
-        .build()
-        .getUserDao();
+    AppDatabase appDatabase = AppDatabase.getInstance(this);
+    mUserDao = appDatabase.getUserDao();
   }
 
   private void insertPredefinedUsers() {
