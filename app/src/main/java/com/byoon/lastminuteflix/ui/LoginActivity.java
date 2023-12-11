@@ -78,10 +78,8 @@ public class LoginActivity extends AppCompatActivity {
   }
 
   private void initializeDatabase() {
-    mUserDao = Room.databaseBuilder(this, AppDatabase.class, AppDatabase.DB_NAME)
-        .allowMainThreadQueries()
-        .build()
-        .getUserDao();
+    AppDatabase appDatabase = AppDatabase.getInstance(this);
+    mUserDao = appDatabase.getUserDao();
   }
 
   private void insertPredefinedUsers() {
