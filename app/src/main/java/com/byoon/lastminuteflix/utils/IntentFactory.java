@@ -23,7 +23,7 @@ public class IntentFactory {
 
   public static Intent createMainActivityIntent(Context context, int userId) {
     Intent intent = new Intent(context, MainActivity.class);
-    String intentExtraKey = IntentKeys.USER_ID_KEY.getKey();
+    String intentExtraKey = KeyConstants.USER_ID_KEY.getKey();
     intent.putExtra(intentExtraKey, userId);
     return intent;
   }

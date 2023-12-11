@@ -5,14 +5,14 @@ package com.byoon.lastminuteflix.utils;
  * @author Brian Yoon
  * @since 2023-12-05
  */
-public enum IntentKeys {
+public enum KeyConstants {
   USER_ID_KEY("USER_ID_KEY"),
   USERNAME_KEY("USERNAME_KEY"),
   PREFERENCES_KEY("PREFERENCES_KEY");
 
   private final String key;
 
-  IntentKeys(String key) {
+  KeyConstants(String key) {
     this.key = key;
   }
 
