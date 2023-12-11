@@ -11,7 +11,7 @@ import androidx.room.Room;
 
 import com.byoon.lastminuteflix.R;
 import com.byoon.lastminuteflix.db.AppDatabase;
-import com.byoon.lastminuteflix.db.UserDAO;
+import com.byoon.lastminuteflix.db.UserDao;
 import com.byoon.lastminuteflix.entity.User;
 import com.byoon.lastminuteflix.utils.IntentFactory;
 
@@ -21,86 +21,89 @@ import com.byoon.lastminuteflix.utils.IntentFactory;
  * @since 2023-12-04
  */
 public class LoginActivity extends AppCompatActivity {
-  private EditText mUsername;
-  private EditText mPassword;
-  private Button mLogInButton;
-  private UserDAO mUserDAO;
+  private EditText mUsernameEditText;
+  private EditText mPasswordEditText;
+  private UserDao mUserDao;
+
+  private static final String TEST_USERNAME = "testuser1";
+  private static final String TEST_PASSWORD = "testuser1";
+  private static final boolean TEST_IS_ADMIN = false;
+
+  private static final String ADMIN_USERNAME = "admin2";
+  private static final String ADMIN_PASSWORD = "admin2";
+  private static final boolean ADMIN_IS_ADMIN = true;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
-    wireUpDisplay();
+    // Wire up views and database.
+    initializeViews();
 
-    getDatabase();
-  }
-
-  private void wireUpDisplay() {
-    mUsername = findViewById(R.id.username_input);
-    mPassword = findViewById(R.id.password_input);
-    mLogInButton = findViewById(R.id.login_button);
-
-    // Press login button to go to main activity.
-    mLogInButton.setOnClickListener(v -> {
-      if (isSuccessfulLogin()) {
-        String usernameString = mUsername.getText().toString();
-        User user = mUserDAO.getUserByUsername(usernameString);
-        int userId = user.getUserId();
-        Intent intent = IntentFactory.createMainActivityIntent(LoginActivity.this, userId);
-        startActivity(intent);
-      }
-      else {
-        // Invalid username and/or password.
-        Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
-      }
-    });
-  }
-
-  private void getDatabase() {
-    mUserDAO = Room.databaseBuilder(this, AppDatabase.class, AppDatabase.DB_NAME)
-        .allowMainThreadQueries()
-        .build()
-        .getUserDAO();
+    initializeDatabase();
 
     // Insert predefined users per project instructions.
     insertPredefinedUsers();
   }
 
+  private void initializeViews() {
+    mUsernameEditText = findViewById(R.id.edittext_username);
+    mPasswordEditText = findViewById(R.id.edittext_password);
+    Button logInButton = findViewById(R.id.button_log_in);
+
+    // Press `Log In` button to go to main activity.
+    logInButton.setOnClickListener(v -> handleLogInButtonPress());
+  }
+
+  private void handleLogInButtonPress() {
+    String mUsernameString = mUsernameEditText.getText().toString();
+    String mPasswordString = mPasswordEditText.getText().toString();
+
+    if (mUsernameString.isEmpty() || mPasswordString.isEmpty()) {
+      Toast.makeText(LoginActivity.this, "Username and password cannot be empty", Toast.LENGTH_SHORT).show();
+      return;
+    }
+
+    User user = mUserDao.getUserByUsername(mUsernameString);
+
+    if (isSuccessfulLogin(user, mPasswordString)) {
+      int userId = user.getUserId();
+      Intent intent = IntentFactory.createMainActivityIntent(LoginActivity.this, userId);
+      startActivity(intent);
+    }
+    else {
+      Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+    }
+  }
+
+  private void initializeDatabase() {
+    mUserDao = Room.databaseBuilder(this, AppDatabase.class, AppDatabase.DB_NAME)
+        .allowMainThreadQueries()
+        .build()
+        .getUserDao();
+  }
+
   private void insertPredefinedUsers() {
-    String testUsername = "testuser1";
-    String testPassword = "testuser1";
-    boolean testIsAdmin = false;
-
-    String adminUsername = "admin2";
-    String adminPassword = "admin2";
-    boolean adminIsAdmin = true;
-
-    if (!userExists(testUsername)){
-      mUserDAO.insert(new User(testUsername, testPassword, testIsAdmin));
+    if (userDoesNotExist(TEST_USERNAME)){
+      mUserDao.insert(new User(TEST_USERNAME, TEST_PASSWORD, TEST_IS_ADMIN));
     }
 
-    if (!userExists(adminUsername)){
-      mUserDAO.insert(new User(adminUsername, adminPassword, adminIsAdmin));
+    if (userDoesNotExist(ADMIN_USERNAME)){
+      mUserDao.insert(new User(ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_IS_ADMIN));
     }
   }
 
-  private boolean userExists(String username) {
-    return mUserDAO.getUserByUsername(username) != null;
+  private boolean userDoesNotExist(String username) {
+    return mUserDao.getUserByUsername(username) == null;
   }
 
-  boolean isSuccessfulLogin() {
-    // Username and password given by user input.
-    String username = mUsername.getText().toString();
-    String password = mPassword.getText().toString();
-
-    User user = mUserDAO.getUserByUsername(username);
-
+  private boolean isSuccessfulLogin(User user, String password) {
     // Check if user exists and password is correct.
     return user != null && user.getPassword().equals(password);
   }
 
-  public UserDAO getUserDAO() {
-    return mUserDAO;
+  public UserDao getUserDao() {
+    return mUserDao;
   }
 }

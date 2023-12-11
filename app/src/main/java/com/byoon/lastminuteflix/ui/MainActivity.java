@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.byoon.lastminuteflix.R;
 import com.byoon.lastminuteflix.db.AppDatabase;
-import com.byoon.lastminuteflix.db.UserDAO;
+import com.byoon.lastminuteflix.db.UserDao;
 import com.byoon.lastminuteflix.entity.User;
 import com.byoon.lastminuteflix.utils.IntentFactory;
 import com.byoon.lastminuteflix.utils.IntentKeys;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
   private int mUserId = NO_USER_LOGGED_IN;
   private User mUser;
 
-  private UserDAO mUserDAO;
+  private UserDao mUserDao;
 
   private SharedPreferences mPreferences = null;
 
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     logInUser(userId);
 
-    String username = mUserDAO.getUserById(userId).getUsername();
+    String username = mUserDao.getUserById(userId).getUsername();
 
     // Update welcome message TextView.
     welcomeMessageTextView = findViewById(R.id.welcome_display);
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void logInUser(int userId) {
-    mUser = mUserDAO.getUserById(userId);
+    mUser = mUserDao.getUserById(userId);
   }
 
   private void clearUserFromIntent() {
@@ -145,10 +145,10 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void getDatabase() {
-    mUserDAO = Room.databaseBuilder(this, AppDatabase.class, AppDatabase.DB_NAME)
+    mUserDao = Room.databaseBuilder(this, AppDatabase.class, AppDatabase.DB_NAME)
             .allowMainThreadQueries()
             .build()
-            .getUserDAO();
+            .getUserDao();
   }
 
   /**
@@ -173,10 +173,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Do we have any users at all?
-    List<User> users = mUserDAO.getAllUsers();
+    List<User> users = mUserDao.getAllUsers();
     if (users.isEmpty()) {
       User defaultUser = new User("defaultuser", "password123", false);
-      mUserDAO.insert(defaultUser);
+      mUserDao.insert(defaultUser);
     }
 
     // No valid user found. Go to login activity.

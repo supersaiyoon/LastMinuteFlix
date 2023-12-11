@@ -16,7 +16,7 @@ import java.util.List;
  * @since 2023-12-04
  */
 @Dao
-public interface UserDAO {
+public interface UserDao {
   @Insert
   void insert(User... users);
 

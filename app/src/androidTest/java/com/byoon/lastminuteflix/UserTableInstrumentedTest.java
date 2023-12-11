@@ -10,7 +10,7 @@ import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 
 import com.byoon.lastminuteflix.db.AppDatabase;
-import com.byoon.lastminuteflix.db.UserDAO;
+import com.byoon.lastminuteflix.db.UserDao;
 import com.byoon.lastminuteflix.entity.User;
 
 import org.junit.After;
@@ -21,14 +21,14 @@ import java.util.List;
 
 public class UserTableInstrumentedTest {
   private AppDatabase appDatabase;
-  private UserDAO userDAO;
+  private UserDao userDao;
 
   @Before
   public void setup() {
     Context context = ApplicationProvider.getApplicationContext();
     // Don't mess with real database.
     appDatabase = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
-    userDAO = appDatabase.getUserDAO();
+    userDao = appDatabase.getUserDao();
   }
 
   @After
@@ -44,10 +44,10 @@ public class UserTableInstrumentedTest {
     boolean isAdmin = false;
 
     User user = new User(username, password, isAdmin);
-    userDAO.insert(user);
+    userDao.insert(user);
 
     // When
-    User retrievedUser = userDAO.getUserByUsername(username);
+    User retrievedUser = userDao.getUserByUsername(username);
 
     // Then
     assertNotNull(retrievedUser);
@@ -65,17 +65,17 @@ public class UserTableInstrumentedTest {
     boolean isAdmin = false;
 
     User user = new User(username, initialPassword, isAdmin);
-    userDAO.insert(user);
+    userDao.insert(user);
 
     // When
-    int userId = userDAO.getUserByUsername(username).getUserId();
+    int userId = userDao.getUserByUsername(username).getUserId();
     user.setUserId(userId);
 
     user.setPassword(updatedPassword);
-    userDAO.update(user);
+    userDao.update(user);
 
     // Then
-    User retrievedUser = userDAO.getUserById(user.getUserId());
+    User retrievedUser = userDao.getUserById(user.getUserId());
     assertNotNull(retrievedUser);
     assertEquals(updatedPassword, retrievedUser.getPassword());
   }
@@ -88,13 +88,13 @@ public class UserTableInstrumentedTest {
     boolean isAdmin = false;
 
     User user = new User(username, password, isAdmin);
-    userDAO.insert(user);
+    userDao.insert(user);
 
     // When
-    userDAO.delete(user);
+    userDao.delete(user);
 
     // Then
-    User retrievedUser = userDAO.getUserById(user.getUserId());
+    User retrievedUser = userDao.getUserById(user.getUserId());
     assertNull(retrievedUser);
   }
 
@@ -103,10 +103,10 @@ public class UserTableInstrumentedTest {
     // Given
     User user1 = new User("user1", "password1", false);
     User user2 = new User("user2", "password2", true);
-    userDAO.insert(user1, user2);
+    userDao.insert(user1, user2);
 
     // When
-    List<User> allUsers = userDAO.getAllUsers();
+    List<User> allUsers = userDao.getAllUsers();
 
     // Then
     int expectedNumberOfUsers = 2;
