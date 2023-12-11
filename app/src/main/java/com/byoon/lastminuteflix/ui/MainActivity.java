@@ -2,10 +2,8 @@ package com.byoon.lastminuteflix.ui;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,9 +16,7 @@ import com.byoon.lastminuteflix.db.AppDatabase;
 import com.byoon.lastminuteflix.db.UserDao;
 import com.byoon.lastminuteflix.entity.User;
 import com.byoon.lastminuteflix.utils.IntentFactory;
-import com.byoon.lastminuteflix.utils.IntentKeys;
-
-import java.util.List;
+import com.byoon.lastminuteflix.utils.KeyConstants;
 
 /**
  * Main activity user sees after logging in. Displays welcome message and buttons to perform actions.
@@ -31,8 +27,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
   private static final int NO_USER_LOGGED_IN = -1;
 
-  private TextView welcomeMessageTextView;
-
+  private TextView mWelcomeMessageTextView;
   private Button mBrowseMoviesButton;
   private Button mShoppingCartButton;
   private Button mOrderHistoryButton;
@@ -43,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
   private User mUser;
 
   private UserDao mUserDao;
-
   private SharedPreferences mPreferences = null;
 
   @Override
@@ -51,34 +45,38 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    getDatabase();
-
-    // Retrieve username from User with userId.
-    int userId = getIntent().getIntExtra(IntentKeys.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
-
-    logInUser(userId);
-
-    String username = mUserDao.getUserById(userId).getUsername();
-
-    // Update welcome message TextView.
-    welcomeMessageTextView = findViewById(R.id.welcome_display);
-    String welcomeWord = getString(R.string.welcome_text);
-    String welcomeMessage = welcomeWord + ", " + username + "!";
-    welcomeMessageTextView.setText(welcomeMessage);
-
-    wireUpDisplay();
+    initializeDatabase();
+    getPrefs();
 
     checkForUser();
+    initializeUser();
+
+    initializeViews();
+
+    String username = mUser.getUsername();
+    updateWelcomeMessage(username);
 
     addUserToPreferences(mUserId);
   }
 
-  private void wireUpDisplay() {
-    mBrowseMoviesButton = findViewById(R.id.browse_movies_button);
-    mShoppingCartButton = findViewById(R.id.shopping_cart_button);
-    mOrderHistoryButton = findViewById(R.id.order_history_button);
-    mAdminButton = findViewById(R.id.admin_button);
-    mLogOutButton = findViewById(R.id.logout_button);
+  private void updateWelcomeMessage(String username) {
+    String welcomeWord = getString(R.string.welcome_text);
+    String welcomeMessage = welcomeWord + ", " + username + "!";
+    mWelcomeMessageTextView.setText(welcomeMessage);
+  }
+
+  private void initializeDatabase() {
+    AppDatabase appDatabase = AppDatabase.getInstance(this);
+    mUserDao = appDatabase.getUserDao();
+  }
+
+  private void initializeViews() {
+    mWelcomeMessageTextView = findViewById(R.id.text_welcome);
+    mBrowseMoviesButton = findViewById(R.id.button_browse_movies);
+    mShoppingCartButton = findViewById(R.id.button_shopping_cart);
+    mOrderHistoryButton = findViewById(R.id.button_order_history);
+    mAdminButton = findViewById(R.id.button_admin);
+    mLogOutButton = findViewById(R.id.button_logout);
 
     // Show admin button only if user is admin.
     mAdminButton.setVisibility(View.INVISIBLE);
@@ -86,36 +84,21 @@ public class MainActivity extends AppCompatActivity {
       mAdminButton.setVisibility(View.VISIBLE);
     }
 
-    // TODO: Set onClickLister for each button.
-    mLogOutButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        logOutUser();
-      }
-    });
+    mLogOutButton.setOnClickListener(v -> showLogoutConfirmationDialog());
   }
 
-  private void logOutUser() {
+  private void showLogoutConfirmationDialog() {
     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-
     alertBuilder.setMessage(R.string.log_out_dialog_message);
 
     alertBuilder.setPositiveButton(getString(R.string.log_out_dialog_positive_button),
-            new DialogInterface.OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-                clearUserFromIntent();
-                clearUserFromPreferences();
-                mUserId = NO_USER_LOGGED_IN;
-                checkForUser();
-              }
+            (dialog, which) -> {
+              clearUser();
+              checkForUser();
             });
     alertBuilder.setNegativeButton(getString(R.string.log_out_dialog_negative_button),
-            new DialogInterface.OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-                // No need to do anything here.
-              }
+            (dialog, which) -> {
+              // No need to do anything here.
             });
 
     // Show alert dialog.
@@ -124,67 +107,62 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void addUserToPreferences(int userId) {
-    if (mPreferences == null) {
-      getPrefs();
-    }
     SharedPreferences.Editor editor = mPreferences.edit();
-    editor.putInt(IntentKeys.USER_ID_KEY.getKey(), userId);
+    editor.putInt(KeyConstants.USER_ID_KEY.getKey(), userId);
     editor.apply();
   }
 
-  private void logInUser(int userId) {
+  private void initializeUser() {
+    // Get User from either Intent or SharedPreferences.
+    int userId = getIntent().getIntExtra(KeyConstants.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
+
+    if (userId == NO_USER_LOGGED_IN) {
+      userId = mPreferences.getInt(KeyConstants.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
+    }
     mUser = mUserDao.getUserById(userId);
   }
 
+  private void clearUser() {
+    clearUserFromIntent();
+    clearUserFromPreferences();
+    mUserId = NO_USER_LOGGED_IN;
+  }
   private void clearUserFromIntent() {
-    getIntent().putExtra(IntentKeys.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
+    getIntent().putExtra(KeyConstants.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
   }
 
   private void clearUserFromPreferences() {
     addUserToPreferences(NO_USER_LOGGED_IN);
   }
 
-  private void getDatabase() {
-    mUserDao = Room.databaseBuilder(this, AppDatabase.class, AppDatabase.DB_NAME)
-            .allowMainThreadQueries()
-            .build()
-            .getUserDao();
-  }
-
   /**
    * Checks if there is a user logged in. If not, goes to login activity.
    */
   private void checkForUser() {
-    // Do we have user in intent?
-    mUserId = getIntent().getIntExtra(IntentKeys.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
+    // Is there user in intent?
+    mUserId = getIntent().getIntExtra(KeyConstants.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
     if (mUserId != NO_USER_LOGGED_IN) {
-      // There is user logged in.
+      mUser = mUserDao.getUserById(mUserId);
+      // User in intent.
       return;
     }
 
-    // Do we have user in preferences?
-    if (mPreferences == null) {
-      getPrefs();
-    }
-
-    mUserId = mPreferences.getInt(IntentKeys.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
+    // Is there user in shared preferences?
+    mUserId = mPreferences.getInt(KeyConstants.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
     if (mUserId != NO_USER_LOGGED_IN) {
+      mUser = mUserDao.getUserById(mUserId);
+      // User in shared preferences.
       return;
-    }
-
-    // Do we have any users at all?
-    List<User> users = mUserDao.getAllUsers();
-    if (users.isEmpty()) {
-      User defaultUser = new User("defaultuser", "password123", false);
-      mUserDao.insert(defaultUser);
     }
 
     // No valid user found. Go to login activity.
     Intent intent = IntentFactory.createLoginActivityIntent(this);
     startActivity(intent);
+    // End MainActivity.
+    finish();
   }
 
   private void getPrefs() {
-    mPreferences = this.getSharedPreferences(IntentKeys.PREFERENCES_KEY.getKey(), Context.MODE_PRIVATE);
+    mPreferences = this.getSharedPreferences(KeyConstants.PREFERENCES_KEY.getKey(), Context.MODE_PRIVATE);
   }
 }
