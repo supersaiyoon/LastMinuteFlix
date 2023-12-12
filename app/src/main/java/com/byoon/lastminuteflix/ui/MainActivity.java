@@ -19,7 +19,8 @@ import com.byoon.lastminuteflix.utils.IntentFactory;
 import com.byoon.lastminuteflix.utils.KeyConstants;
 
 /**
- * Main activity user sees after logging in. Displays welcome message and buttons to perform actions.
+ * Displays welcome message and buttons to perform actions.
+ * If user did not log out, user will be logged in automatically to this activity.
  * Admin users will see Admin button to go to admin activity.
  * @author Brian Yoon
  * @since 2023-12-05
@@ -48,9 +49,11 @@ public class MainActivity extends AppCompatActivity {
     initializeDatabase();
     getPrefs();
 
-    checkForUser();
-    initializeUser();
+    if (!checkForUser()) {
+      return;  // Exit if no user found.
+    }
 
+    initializeUser();
     initializeViews();
 
     String username = mUser.getUsername();
@@ -138,28 +141,25 @@ public class MainActivity extends AppCompatActivity {
   /**
    * Checks if there is a user logged in. If not, goes to login activity.
    */
-  private void checkForUser() {
-    // Is there user in intent?
+  private boolean checkForUser() {
     mUserId = getIntent().getIntExtra(KeyConstants.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
     if (mUserId != NO_USER_LOGGED_IN) {
       mUser = mUserDao.getUserById(mUserId);
-      // User in intent.
-      return;
+      return true;  // User found in intent.
     }
 
-    // Is there user in shared preferences?
     mUserId = mPreferences.getInt(KeyConstants.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
     if (mUserId != NO_USER_LOGGED_IN) {
       mUser = mUserDao.getUserById(mUserId);
-      // User in shared preferences.
-      return;
+      return true;  // User found in shared preferences.
     }
 
-    // No valid user found. Go to login activity.
+    // No valid user found, go to login activity.
     Intent intent = IntentFactory.createLoginActivityIntent(this);
     startActivity(intent);
     // End MainActivity.
     finish();
+    return false;
   }
 
   private void getPrefs() {

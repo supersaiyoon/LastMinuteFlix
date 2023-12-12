@@ -3,6 +3,7 @@ package com.byoon.lastminuteflix.utils;
 import android.content.Context;
 import android.content.Intent;
 
+import com.byoon.lastminuteflix.ui.CreateAccountActivity;
 import com.byoon.lastminuteflix.ui.LoginActivity;
 import com.byoon.lastminuteflix.ui.MainActivity;
 
@@ -19,6 +20,10 @@ public class IntentFactory {
 
   public static Intent createLoginActivityIntent(Context context) {
     return new Intent(context, LoginActivity.class);
+  }
+
+  public static Intent createCreateAccountActivityIntent(Context context) {
+    return new Intent(context, CreateAccountActivity.class);
   }
 
   public static Intent createMainActivityIntent(Context context, int userId) {

@@ -15,7 +15,7 @@ import com.byoon.lastminuteflix.entity.User;
 import com.byoon.lastminuteflix.utils.IntentFactory;
 
 /**
- * First activity user sees when app is opened.
+ * Where user logs in to app.
  * @author Brian Yoon
  * @since 2023-12-04
  */
@@ -50,9 +50,13 @@ public class LoginActivity extends AppCompatActivity {
     mUsernameEditText = findViewById(R.id.edittext_username);
     mPasswordEditText = findViewById(R.id.edittext_password);
     Button logInButton = findViewById(R.id.button_log_in);
+    Button signUpButton = findViewById(R.id.button_sign_up);
 
     // Press `Log In` button to go to main activity.
     logInButton.setOnClickListener(v -> handleLogInButtonPress());
+
+    // Press `Sign Up` button to go to create account activity.
+    signUpButton.setOnClickListener(v -> handleSignUpButtonPress());
   }
 
   private void handleLogInButtonPress() {
@@ -74,6 +78,11 @@ public class LoginActivity extends AppCompatActivity {
     else {
       Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
     }
+  }
+
+  private void handleSignUpButtonPress() {
+    Intent intent = IntentFactory.createCreateAccountActivityIntent(LoginActivity.this);
+    startActivity(intent);
   }
 
   private void initializeDatabase() {

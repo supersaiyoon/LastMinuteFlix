@@ -2,16 +2,21 @@
     <string name="app_name">LastMinuteFlix</string>
     <string name="sign_in_text">Sign In</string>
     <string name="username_hint">Username</string>
+    <string name="new_username_hint">Enter username</string>
     <string name="password_hint">Password</string>
+    <string name="new_password_hint">Enter password</string>
+    <string name="password_again_hint">Re-enter password</string>
     <string name="log_in_button_text">Log In</string>
     <string name="welcome_text">Welcome</string>
     <string name="browse_movies_button_text">Browse Movies</string>
     <string name="shopping_cart_button_text">Shopping Cart</string>
     <string name="order_history_button_text">Order History</string>
     <string name="sign_up_button_text">Sign Up</string>
+    <string name="create_new_account_button_text">Create Account</string>
     <string name="admin_button_text">Admin</string>
     <string name="log_out_button_text">LOG OUT</string>
     <string name="log_out_dialog_message">Log out?</string>
     <string name="log_out_dialog_positive_button">YES</string>
     <string name="log_out_dialog_negative_button">NO</string>
+    <string name="display_create_a_new_account">Create a New Account</string>
 </resources>
