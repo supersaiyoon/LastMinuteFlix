@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
     startActivity(intent);
     // End MainActivity.
     finish();
+    return;
   }
 
   private void getPrefs() {
