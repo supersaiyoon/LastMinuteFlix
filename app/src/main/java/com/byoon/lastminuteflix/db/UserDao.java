@@ -26,6 +26,9 @@ public interface UserDao {
   @Delete
   void delete(User... users);
 
+  @Query("DELETE FROM " + AppDatabase.USER_TABLE + " WHERE mUserId = :userId")
+  void deleteUserById(int userId);
+
   @Query("SELECT * FROM " + AppDatabase.USER_TABLE)
   List<User> getAllUsers();
 

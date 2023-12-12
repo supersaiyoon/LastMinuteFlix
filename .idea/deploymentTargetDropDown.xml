@@ -11,15 +11,6 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="givenMultipleUsers_whenGetAllUsers_thenCorrectNumberOfUsersRetrieved()">
-        <State />
-      </entry>
-      <entry key="givenUser_whenDeleted_thenUserIsNotRetrievable()">
-        <State />
-      </entry>
-      <entry key="givenUser_whenInserted_thenUserIsRetrievable()">
-        <State />
-      </entry>
     </value>
   </component>
 </project>

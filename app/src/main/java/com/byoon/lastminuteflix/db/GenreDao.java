@@ -31,4 +31,7 @@ public interface GenreDao {
 
   @Query("SELECT * FROM " + AppDatabase.GENRE_TABLE + " WHERE mGenreId = :genreId")
   Genre getGenreById(int genreId);
+
+  @Query("SELECT * FROM " + AppDatabase.GENRE_TABLE + " WHERE mGenreName = :genreName")
+  Genre getGenreByName(String genreName);
 }
