@@ -14,6 +14,7 @@ public abstract class AppDatabase extends RoomDatabase {
   public static final String DB_NAME = "LASTMINUTEFLIX_DATABASE";
   public static final String USER_TABLE = "USER_TABLE";
   public static final String GENRE_TABLE = "GENRE_TABLE";
+  public static final String MOVIE_TABLE = "MOVIE_TABLE";
   private static AppDatabase instance;
 
   public abstract UserDao getUserDao();
