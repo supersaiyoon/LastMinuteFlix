@@ -20,6 +20,14 @@ public class Genre {
     mGenreName = genreName;
   }
 
+  public int getGenreId() {
+    return mGenreId;
+  }
+
+  public void setGenreId(int genreId) {
+    mGenreId = genreId;
+  }
+
   public String getGenreName() {
     return mGenreName;
   }

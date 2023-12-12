@@ -17,7 +17,7 @@ public abstract class AppDatabase extends RoomDatabase {
   private static AppDatabase instance;
 
   public abstract UserDao getUserDao();
-  public abstract UserDao getGenreDao();
+  public abstract GenreDao getGenreDao();
 
   // Ensures singleton design pattern.
   public static synchronized AppDatabase getInstance(Context context) {
