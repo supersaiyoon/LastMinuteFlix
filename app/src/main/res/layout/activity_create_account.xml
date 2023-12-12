@@ -61,7 +61,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edittext_new_username" />
 
     <EditText
-        android:id="@+id/edittext_password_again"
+        android:id="@+id/edittext_new_password_confirm"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -76,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edittext_new_password" />
 
     <Button
-        android:id="@+id/button_create_new_account"
+        android:id="@+id/button_create_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -87,6 +87,6 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_password_again" />
+        app:layout_constraintTop_toBottomOf="@+id/edittext_new_password_confirm" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
