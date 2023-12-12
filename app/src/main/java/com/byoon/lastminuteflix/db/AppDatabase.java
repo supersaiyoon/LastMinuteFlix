@@ -6,15 +6,18 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.byoon.lastminuteflix.entity.Genre;
 import com.byoon.lastminuteflix.entity.User;
 
-@Database(entities = {User.class}, version = 1)
+@Database(entities = {User.class, Genre.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
   public static final String DB_NAME = "LASTMINUTEFLIX_DATABASE";
   public static final String USER_TABLE = "USER_TABLE";
+  public static final String GENRE_TABLE = "GENRE_TABLE";
   private static AppDatabase instance;
 
   public abstract UserDao getUserDao();
+  public abstract UserDao getGenreDao();
 
   // Ensures singleton design pattern.
   public static synchronized AppDatabase getInstance(Context context) {
