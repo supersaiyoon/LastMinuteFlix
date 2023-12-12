@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNull;
 import android.content.Context;
 
 import androidx.room.Room;
-import androidx.test.core.app.ApplicationProvider;
 
 import com.byoon.lastminuteflix.db.AppDatabase;
 import com.byoon.lastminuteflix.db.UserDao;
@@ -16,18 +15,24 @@ import com.byoon.lastminuteflix.entity.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 
 import java.util.List;
 
-public class UserTableInstrumentedTest {
+@RunWith(RobolectricTestRunner.class)
+public class UserDaoTest {
   private AppDatabase appDatabase;
   private UserDao userDao;
 
   @Before
   public void setup() {
-    Context context = ApplicationProvider.getApplicationContext();
+    Context context = RuntimeEnvironment.getApplication();
     // Don't mess with real database.
-    appDatabase = Room.inMemoryDatabaseBuilder(context, AppDatabase.class).build();
+    appDatabase = Room.inMemoryDatabaseBuilder(context, AppDatabase.class)
+            .allowMainThreadQueries()
+            .build();
     userDao = appDatabase.getUserDao();
   }
 
@@ -45,9 +50,10 @@ public class UserTableInstrumentedTest {
 
     User user = new User(username, password, isAdmin);
     userDao.insert(user);
+    int userId = userDao.getUserByUsername(username).getUserId();
 
     // When
-    User retrievedUser = userDao.getUserByUsername(username);
+    User retrievedUser = userDao.getUserById(userId);
 
     // Then
     assertNotNull(retrievedUser);
@@ -89,12 +95,13 @@ public class UserTableInstrumentedTest {
 
     User user = new User(username, password, isAdmin);
     userDao.insert(user);
+    int userId = userDao.getUserByUsername(username).getUserId();
 
     // When
-    userDao.delete(user);
+    userDao.deleteUserById(userId);
 
     // Then
-    User retrievedUser = userDao.getUserById(user.getUserId());
+    User retrievedUser = userDao.getUserById(userId);
     assertNull(retrievedUser);
   }
 
