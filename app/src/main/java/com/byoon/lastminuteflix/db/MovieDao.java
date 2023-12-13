@@ -8,6 +8,8 @@ import androidx.room.Update;
 
 import com.byoon.lastminuteflix.entity.Movie;
 
+import java.util.List;
+
 /**
  * Data access object for Movie entity. Used to query Room database for movie data.
  * @author Brian Yoon
@@ -23,6 +25,9 @@ public interface MovieDao {
 
   @Delete
   void delete(Movie... movies);
+
+  @Query("SELECT * FROM " + AppDatabase.MOVIE_TABLE)
+  List<Movie> getAllMovies();
 
   @Query("SELECT * FROM " + AppDatabase.MOVIE_TABLE + " WHERE mMovieId = :movieId")
   Movie getMovieById(long movieId);

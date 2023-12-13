@@ -13,10 +13,16 @@ import android.widget.TextView;
 
 import com.byoon.lastminuteflix.R;
 import com.byoon.lastminuteflix.db.AppDatabase;
+import com.byoon.lastminuteflix.db.GenreDao;
+import com.byoon.lastminuteflix.db.MovieDao;
 import com.byoon.lastminuteflix.db.UserDao;
+import com.byoon.lastminuteflix.entity.Genre;
+import com.byoon.lastminuteflix.entity.Movie;
 import com.byoon.lastminuteflix.entity.User;
 import com.byoon.lastminuteflix.utils.IntentFactory;
 import com.byoon.lastminuteflix.utils.KeyConstants;
+
+import java.util.List;
 
 /**
  * Displays welcome message and buttons to perform actions.
@@ -39,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
   private User mUser;
 
   private UserDao mUserDao;
+  private GenreDao mGenreDao;
+  private MovieDao mMovieDao;
   private SharedPreferences mPreferences = null;
 
   @Override
@@ -48,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
     initializeDatabase();
     getPrefs();
+
+    initializeGenres();
+    initializeMovies();
 
     if (!checkForUser()) {
       return;  // Exit if no user found.
@@ -71,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
   private void initializeDatabase() {
     AppDatabase appDatabase = AppDatabase.getInstance(this);
     mUserDao = appDatabase.getUserDao();
+    mGenreDao = appDatabase.getGenreDao();
+    mMovieDao = appDatabase.getMovieDao();
   }
 
   private void initializeViews() {
@@ -170,5 +183,27 @@ public class MainActivity extends AppCompatActivity {
 
   private void getPrefs() {
     mPreferences = this.getSharedPreferences(KeyConstants.PREFERENCES_KEY.getKey(), Context.MODE_PRIVATE);
+  }
+
+  private void initializeGenres() {
+    // Check if genres already exist in database to avoid duplicate entries.
+    List<Genre> existingGenres = mGenreDao.getAllGenres();
+    if (existingGenres == null || existingGenres.isEmpty()) {
+      // Add predefined genres
+      mGenreDao.insert(new Genre("Action"));
+      mGenreDao.insert(new Genre("Comedy"));
+      mGenreDao.insert(new Genre("Drama"));
+    }
+  }
+
+  private void initializeMovies() {
+    // Check if movies already exist in database to avoid duplicate entries.
+    List<Movie> existingMovies = mMovieDao.getAllMovies();
+    if (existingMovies == null || existingMovies.isEmpty()) {
+      // Add predefined movies
+      mMovieDao.insert(new Movie(1, "The Matrix", 136, "R"));
+      mMovieDao.insert(new Movie(2, "The Hangover", 100, "R"));
+      mMovieDao.insert(new Movie(3, "The Dark Knight", 152, "PG-13"));
+    }
   }
 }
