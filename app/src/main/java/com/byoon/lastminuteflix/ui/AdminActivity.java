@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,7 +18,9 @@ import android.widget.Toast;
 import com.byoon.lastminuteflix.R;
 import com.byoon.lastminuteflix.db.AppDatabase;
 import com.byoon.lastminuteflix.db.GenreDao;
+import com.byoon.lastminuteflix.db.MovieDao;
 import com.byoon.lastminuteflix.entity.Genre;
+import com.byoon.lastminuteflix.entity.Movie;
 import com.byoon.lastminuteflix.utils.IntentFactory;
 
 import java.util.ArrayList;
@@ -37,6 +40,7 @@ public class AdminActivity extends AppCompatActivity {
   private Button mDeleteMovieButton;
   private Button mAddShowtimeButton;
   GenreDao genreDao;
+  MovieDao movieDao;
   List<Genre> genres;
 
   AppDatabase mDatabase = AppDatabase.getInstance(this);
@@ -168,6 +172,10 @@ public class AdminActivity extends AppCompatActivity {
   }
 
   private void saveMovieToDatabase(long genreId, String title, int duration, String rating) {
-    // Implementation to save movie details to the database
+    movieDao = mDatabase.getMovieDao();
+    Movie movie = new Movie(genreId, title, duration, rating);
+    movieDao.insert(movie);
+
+    Toast.makeText(this, "Movie added", Toast.LENGTH_SHORT).show();
   }
 }
