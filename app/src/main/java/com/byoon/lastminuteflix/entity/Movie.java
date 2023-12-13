@@ -2,6 +2,7 @@ package com.byoon.lastminuteflix.entity;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.byoon.lastminuteflix.db.AppDatabase;
@@ -10,39 +11,39 @@ import com.byoon.lastminuteflix.db.AppDatabase;
         foreignKeys = @ForeignKey(entity = Genre.class,
                                   parentColumns = "mGenreId",
                                   childColumns = "mGenreId",
-                                  onDelete = ForeignKey.CASCADE)
-)
+                                  onDelete = ForeignKey.CASCADE),
+        indices = {@Index(value = {"mGenreId"})})
 public class Movie {
   @PrimaryKey(autoGenerate = true)
-  private int mMovieId;
+  private long mMovieId;
 
   // Foreign key
-  private int mGenreId;
+  private long mGenreId;
 
   private String mTitle;
   private int mDuration;  // In minutes
   private String mRating;
 
-  public Movie(int genreId, String title, int duration, String rating) {
+  public Movie(long genreId, String title, int duration, String rating) {
     mGenreId = genreId;
     mTitle = title;
     mDuration = duration;
     mRating = rating;
   }
 
-  public int getMovieId() {
+  public long getMovieId() {
     return mMovieId;
   }
 
-  public void setMovieId(int movieId) {
+  public void setMovieId(long movieId) {
     mMovieId = movieId;
   }
 
-  public int getGenreId() {
+  public long getGenreId() {
     return mGenreId;
   }
 
-  public void setGenreId(int genreId) {
+  public void setGenreId(long genreId) {
     mGenreId = genreId;
   }
 

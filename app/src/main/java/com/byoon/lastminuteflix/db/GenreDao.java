@@ -18,7 +18,7 @@ import java.util.List;
 @Dao
 public interface GenreDao {
   @Insert
-  void insert(Genre... genres);
+  long insert(Genre genre);
 
   @Update
   void update(Genre... genres);
@@ -30,7 +30,7 @@ public interface GenreDao {
   List<Genre> getAllGenres();
 
   @Query("SELECT * FROM " + AppDatabase.GENRE_TABLE + " WHERE mGenreId = :genreId")
-  Genre getGenreById(int genreId);
+  Genre getGenreById(long genreId);
 
   @Query("SELECT * FROM " + AppDatabase.GENRE_TABLE + " WHERE mGenreName = :genreName")
   Genre getGenreByName(String genreName);
