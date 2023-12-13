@@ -3,6 +3,7 @@ package com.byoon.lastminuteflix.utils;
 import android.content.Context;
 import android.content.Intent;
 
+import com.byoon.lastminuteflix.ui.AdminActivity;
 import com.byoon.lastminuteflix.ui.CreateAccountActivity;
 import com.byoon.lastminuteflix.ui.LoginActivity;
 import com.byoon.lastminuteflix.ui.MainActivity;
@@ -31,5 +32,9 @@ public class IntentFactory {
     String intentExtraKey = KeyConstants.USER_ID_KEY.getKey();
     intent.putExtra(intentExtraKey, userId);
     return intent;
+  }
+
+  public static Intent createAdminActivityIntent(Context context) {
+    return new Intent(context, AdminActivity.class);
   }
 }

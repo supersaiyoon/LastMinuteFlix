@@ -19,4 +19,12 @@
     <string name="log_out_dialog_positive_button">YES</string>
     <string name="log_out_dialog_negative_button">NO</string>
     <string name="display_create_a_new_account">Create a New Account</string>
+    <string name="display_admin">Admin</string>
+    <string name="button_delete_user">Delete User</string>
+    <string name="button_add_movie_genre">Add Movie Genre</string>
+    <string name="button_add_movie">Add Movie</string>
+    <string name="button_delete_movie">Delete Movie</string>
+    <string name="button_add_showtime">Add Showtime</string>
+    <string name="default_fragment_username">Username</string>
+    <string name="fragment_button_delete">Delete</string>
 </resources>
