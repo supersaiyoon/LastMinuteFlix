@@ -57,17 +57,17 @@ public class GenreDaoTest {
 
   @Test
   public void givenExistingGenre_whenUpdating_thenUpdatedInDatabase() {
-    String genreName = "Comedy";
-    String newGenreName = "Romantic Comedy";
-
     // Given
+    String genreName = "Comedy";
     Genre genre = new Genre(genreName);
     genreDao.insert(genre);
+
     // Ensure the same genre is retrieved from database.
     int genreId = genreDao.getGenreByName(genreName).getGenreId();
     genre.setGenreId(genreId);
 
     // When
+    String newGenreName = "Romantic Comedy";
     genre.setGenreName(newGenreName);
     genreDao.update(genre);
 
@@ -79,11 +79,11 @@ public class GenreDaoTest {
 
   @Test
   public void givenExistingGenre_whenDeleting_thenNotFoundInDatabase() {
-    String genreName = "Horror";
-
     // Given
+    String genreName = "Horror";
     Genre genre = new Genre(genreName);
     genreDao.insert(genre);
+
     // Ensure the same genre is retrieved from database.
     int genreId = genreDao.getGenreByName(genreName).getGenreId();
     genre.setGenreId(genreId);
