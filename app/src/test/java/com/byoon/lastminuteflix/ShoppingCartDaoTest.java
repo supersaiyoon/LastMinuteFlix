@@ -73,7 +73,7 @@ public class ShoppingCartDaoTest {
 
   @Test
   public void givenShoppingCart_whenInserted_thenCartIsRetrievable() {
-    // Given
+    // Given is handled in setUp().
 
 
     // When
