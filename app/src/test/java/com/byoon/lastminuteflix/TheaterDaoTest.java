@@ -46,7 +46,7 @@ public class TheaterDaoTest {
     long testMovieId = movieDao.insert(new Movie(testGenreId, "Dumb and Dumber", 113, "PG-13"));
 
     // Initialize theater database.
-    theater = new Theater(testMovieId, theaterName, "Sacramento, CA", "7:30 PM", 100);
+    theater = new Theater(testMovieId, theaterName, "Sacramento, CA", "7:30 PM", 4.99, 100);
   }
 
   @After

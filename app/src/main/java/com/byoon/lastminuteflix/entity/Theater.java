@@ -23,13 +23,15 @@ public class Theater {
   private String mTheaterName;
   private String mTheaterCityState;  // e.g. "Sacramento, CA"
   private String mShowTime;  // e.g. "7:30 PM"
+  private double mTicketPrice;
   private int mRemainingSeats;
 
-  public Theater(long movieId, String theaterName, String theaterCityState, String showTime, int remainingSeats) {
+  public Theater(long movieId, String theaterName, String theaterCityState, String showTime, double ticketPrice, int remainingSeats) {
     mMovieId = movieId;
     mTheaterName = theaterName;
     mTheaterCityState = theaterCityState;
     mShowTime = showTime;
+    mTicketPrice = ticketPrice;
     mRemainingSeats = remainingSeats;
   }
 
@@ -71,6 +73,14 @@ public class Theater {
 
   public void setShowTime(String showTime) {
     mShowTime = showTime;
+  }
+
+  public double getTicketPrice() {
+    return mTicketPrice;
+  }
+
+  public void setTicketPrice(double ticketPrice) {
+    mTicketPrice = ticketPrice;
   }
 
   public int getRemainingSeats() {
