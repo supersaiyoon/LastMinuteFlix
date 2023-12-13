@@ -173,9 +173,17 @@ public class AdminActivity extends AppCompatActivity {
 
   private void saveMovieToDatabase(long genreId, String title, int duration, String rating) {
     movieDao = mDatabase.getMovieDao();
+
+    // Verify movie doesn't already exist.
+    Movie existingMovie = movieDao.getMovieByTitle(title);
+    if (existingMovie != null) {
+      Toast.makeText(this, "\"" + title + "\"" + " already exists", Toast.LENGTH_SHORT).show();
+      return;
+    }
+
+    // Movie doesn't exist, so safe to add.
     Movie movie = new Movie(genreId, title, duration, rating);
     movieDao.insert(movie);
-
-    Toast.makeText(this, "Movie added", Toast.LENGTH_SHORT).show();
+    Toast.makeText(this, "Movie successfully added", Toast.LENGTH_SHORT).show();
   }
 }
