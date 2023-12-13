@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "ae4766df7e817d181e8e59291bea20e2",
+    "identityHash": "6c72d39fad8eab02727f7bd9612ac534",
     "entities": [
       {
         "tableName": "USER_TABLE",
@@ -109,7 +109,17 @@
             "mMovieId"
           ]
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_MOVIE_TABLE_mGenreId",
+            "unique": false,
+            "columnNames": [
+              "mGenreId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_MOVIE_TABLE_mGenreId` ON `${TABLE_NAME}` (`mGenreId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "GENRE_TABLE",
@@ -126,7 +136,7 @@
       },
       {
         "tableName": "THEATER_TABLE",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mTheaterId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mMovieId` INTEGER NOT NULL, `mTheaterName` TEXT, `mTheaterCityState` TEXT, `mShowTime` TEXT, `nRemainingSeats` INTEGER NOT NULL, FOREIGN KEY(`mMovieId`) REFERENCES `MOVIE_TABLE`(`mMovieId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mTheaterId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mMovieId` INTEGER NOT NULL, `mTheaterName` TEXT, `mTheaterCityState` TEXT, `mShowTime` TEXT, `mRemainingSeats` INTEGER NOT NULL, FOREIGN KEY(`mMovieId`) REFERENCES `MOVIE_TABLE`(`mMovieId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "mTheaterId",
@@ -159,8 +169,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "nRemainingSeats",
-            "columnName": "nRemainingSeats",
+            "fieldPath": "mRemainingSeats",
+            "columnName": "mRemainingSeats",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -171,7 +181,17 @@
             "mTheaterId"
           ]
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_THEATER_TABLE_mMovieId",
+            "unique": false,
+            "columnNames": [
+              "mMovieId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_THEATER_TABLE_mMovieId` ON `${TABLE_NAME}` (`mMovieId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "MOVIE_TABLE",
@@ -190,7 +210,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ae4766df7e817d181e8e59291bea20e2')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6c72d39fad8eab02727f7bd9612ac534')"
     ]
   }
 }

@@ -2,6 +2,7 @@ package com.byoon.lastminuteflix.entity;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.byoon.lastminuteflix.db.AppDatabase;
@@ -10,41 +11,41 @@ import com.byoon.lastminuteflix.db.AppDatabase;
         foreignKeys = @ForeignKey(entity = Movie.class,
                 parentColumns = "mMovieId",
                 childColumns = "mMovieId",
-                onDelete = ForeignKey.CASCADE)
-)
+                onDelete = ForeignKey.CASCADE),
+        indices = {@Index(value = {"mMovieId"})})
 public class Theater {
   @PrimaryKey(autoGenerate = true)
-  private int mTheaterId;
+  private long mTheaterId;
 
   // Foreign key
-  private int mMovieId;
+  private long mMovieId;
 
   private String mTheaterName;
   private String mTheaterCityState;  // e.g. "Sacramento, CA"
   private String mShowTime;  // e.g. "7:30 PM"
-  private int nRemainingSeats;
+  private int mRemainingSeats;
 
-  public Theater(int movieId, String theaterName, String theaterCityState, String showTime, int remainingSeats) {
+  public Theater(long movieId, String theaterName, String theaterCityState, String showTime, int remainingSeats) {
     mMovieId = movieId;
     mTheaterName = theaterName;
     mTheaterCityState = theaterCityState;
     mShowTime = showTime;
-    nRemainingSeats = remainingSeats;
+    mRemainingSeats = remainingSeats;
   }
 
-  public int getTheaterId() {
+  public long getTheaterId() {
     return mTheaterId;
   }
 
-  public void setTheaterId(int theaterId) {
+  public void setTheaterId(long theaterId) {
     mTheaterId = theaterId;
   }
 
-  public int getMovieId() {
+  public long getMovieId() {
     return mMovieId;
   }
 
-  public void setMovieId(int movieId) {
+  public void setMovieId(long movieId) {
     mMovieId = movieId;
   }
 
@@ -73,14 +74,14 @@ public class Theater {
   }
 
   public int getRemainingSeats() {
-    return nRemainingSeats;
+    return mRemainingSeats;
   }
 
-  public void setRemainingSeats(int nRemainingSeats) {
-    this.nRemainingSeats = nRemainingSeats;
+  public void setRemainingSeats(int remainingSeats) {
+    this.mRemainingSeats = remainingSeats;
   }
 
   public void decrementRemainingSeats() {
-    nRemainingSeats--;
+    mRemainingSeats--;
   }
 }

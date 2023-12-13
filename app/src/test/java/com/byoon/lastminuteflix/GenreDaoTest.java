@@ -60,10 +60,9 @@ public class GenreDaoTest {
     // Given
     String genreName = "Comedy";
     Genre genre = new Genre(genreName);
-    genreDao.insert(genre);
+    long genreId = genreDao.insert(genre);
 
     // Ensure the same genre is retrieved from database.
-    int genreId = genreDao.getGenreByName(genreName).getGenreId();
     genre.setGenreId(genreId);
 
     // When
@@ -82,10 +81,9 @@ public class GenreDaoTest {
     // Given
     String genreName = "Horror";
     Genre genre = new Genre(genreName);
-    genreDao.insert(genre);
+    long genreId = genreDao.insert(genre);
 
     // Ensure the same genre is retrieved from database.
-    int genreId = genreDao.getGenreByName(genreName).getGenreId();
     genre.setGenreId(genreId);
 
     // When

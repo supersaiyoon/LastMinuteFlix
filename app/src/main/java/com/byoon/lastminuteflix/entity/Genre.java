@@ -13,18 +13,18 @@ import com.byoon.lastminuteflix.db.AppDatabase;
 @Entity(tableName = AppDatabase.GENRE_TABLE)
 public class Genre {
   @PrimaryKey(autoGenerate = true)
-  private int mGenreId;
+  private long mGenreId;
   private String mGenreName;
 
   public Genre(String genreName) {
     mGenreName = genreName;
   }
 
-  public int getGenreId() {
+  public long getGenreId() {
     return mGenreId;
   }
 
-  public void setGenreId(int genreId) {
+  public void setGenreId(long genreId) {
     mGenreId = genreId;
   }
 

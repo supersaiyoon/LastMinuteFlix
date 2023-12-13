@@ -16,7 +16,7 @@ import com.byoon.lastminuteflix.entity.Movie;
 @Dao
 public interface MovieDao {
   @Insert
-  void insert(Movie... movies);
+  long insert(Movie movie);
 
   @Update
   void update(Movie... movies);
@@ -25,7 +25,7 @@ public interface MovieDao {
   void delete(Movie... movies);
 
   @Query("SELECT * FROM " + AppDatabase.MOVIE_TABLE + " WHERE mMovieId = :movieId")
-  Movie getMovieById(int movieId);
+  Movie getMovieById(long movieId);
 
   @Query("SELECT * FROM " + AppDatabase.MOVIE_TABLE + " WHERE mTitle = :title")
   Movie getMovieByTitle(String title);

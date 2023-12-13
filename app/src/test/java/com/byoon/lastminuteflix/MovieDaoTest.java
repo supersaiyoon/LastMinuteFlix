@@ -26,7 +26,7 @@ import org.robolectric.RuntimeEnvironment;
 public class MovieDaoTest {
   private AppDatabase database;
   private MovieDao movieDao;
-  private int testGenreId;
+  private long testGenreId;
 
   @Before
   public void createDb() {
@@ -40,8 +40,7 @@ public class MovieDaoTest {
 
     String testGenreName = "Comedy";
     Genre testGenre = new Genre(testGenreName);
-    genreDao.insert(testGenre);
-    testGenreId = genreDao.getGenreByName(testGenreName).getGenreId();
+    testGenreId = genreDao.insert(testGenre);
   }
 
   @After
@@ -75,10 +74,9 @@ public class MovieDaoTest {
     String rating = "PG";
 
     Movie movie = new Movie(testGenreId, movieTitle, duration, rating);
-    movieDao.insert(movie);
+    long movieId = movieDao.insert(movie);
 
-    // Ensure the same movie is retrieved from database.
-    int movieId = movieDao.getMovieByTitle(movieTitle).getMovieId();
+    // Ensure same movie is updated in database.
     movie.setMovieId(movieId);
 
     // When
@@ -100,10 +98,9 @@ public class MovieDaoTest {
     String rating = "PG-13";
 
     Movie movie = new Movie(testGenreId, movieTitle, duration, rating);
-    movieDao.insert(movie);
+    long movieId = movieDao.insert(movie);
 
-    // Ensure the same movie is retrieved from database.
-    int movieId = movieDao.getMovieByTitle(movieTitle).getMovieId();
+    // Ensure correct movie is deleted from database.
     movie.setMovieId(movieId);
 
     // When

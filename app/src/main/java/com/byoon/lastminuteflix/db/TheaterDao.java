@@ -16,7 +16,7 @@ import com.byoon.lastminuteflix.entity.Theater;
 @Dao
 public interface TheaterDao {
   @Insert
-  void insert(Theater... theaters);
+  long insert(Theater theater);
 
   @Update
   void update(Theater... theaters);
@@ -25,5 +25,8 @@ public interface TheaterDao {
   void delete(Theater... theaters);
 
   @Query("SELECT * FROM " + AppDatabase.THEATER_TABLE + " WHERE mTheaterId = :theaterId")
-  Theater getTheaterById(int theaterId);
+  Theater getTheaterById(long theaterId);
+
+  @Query("SELECT * FROM " + AppDatabase.THEATER_TABLE + " WHERE mTheaterName = :theaterName")
+  Theater getTheaterByName(String theaterName);
 }
