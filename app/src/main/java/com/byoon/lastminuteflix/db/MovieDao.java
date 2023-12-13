@@ -3,6 +3,7 @@ package com.byoon.lastminuteflix.db;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.Query;
 import androidx.room.Update;
 
 import com.byoon.lastminuteflix.entity.Movie;
@@ -15,11 +16,17 @@ import com.byoon.lastminuteflix.entity.Movie;
 @Dao
 public interface MovieDao {
   @Insert
-  void insert(Movie... movies);
+  long[] insert(Movie... movies);
 
   @Update
   void update(Movie... movies);
 
   @Delete
   void delete(Movie... movies);
+
+  @Query("SELECT * FROM " + AppDatabase.MOVIE_TABLE + " WHERE mMovieId = :movieId")
+  Movie getMovieById(int movieId);
+
+  @Query("SELECT * FROM " + AppDatabase.MOVIE_TABLE + " WHERE mTitle = :title")
+  Movie getMovieByTitle(String title);
 }

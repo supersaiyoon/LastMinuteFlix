@@ -17,11 +17,18 @@ public class Movie {
   private int mMovieId;
 
   // Foreign key
-  private String mGenreId;
+  private int mGenreId;
 
   private String mTitle;
   private int mDuration;  // In minutes
   private String mRating;
+
+  public Movie(int genreId, String title, int duration, String rating) {
+    mGenreId = genreId;
+    mTitle = title;
+    mDuration = duration;
+    mRating = rating;
+  }
 
   public int getMovieId() {
     return mMovieId;
@@ -31,11 +38,11 @@ public class Movie {
     mMovieId = movieId;
   }
 
-  public String getGenreId() {
+  public int getGenreId() {
     return mGenreId;
   }
 
-  public void setGenreId(String genreId) {
+  public void setGenreId(int genreId) {
     mGenreId = genreId;
   }
 
