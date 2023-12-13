@@ -33,6 +33,13 @@ public class AdminActivity extends AppCompatActivity {
     initializeViews();
 
     mLogOutButton.setOnClickListener(v -> showLogoutConfirmationDialog());
+
+    mDeleteUserButton.setOnClickListener(v -> {
+      getSupportFragmentManager().beginTransaction()
+              .replace(R.id.fragment_container_admin, new UserListFragment())
+              .addToBackStack(null)
+              .commit();
+    });
   }
 
   private void initializeViews() {
@@ -51,6 +58,7 @@ public class AdminActivity extends AppCompatActivity {
 
     alertBuilder.setPositiveButton(getString(R.string.log_out_dialog_positive_button),
             (dialog, which) -> {
+              // Return to login activity.
               Intent intent = IntentFactory.createLoginActivityIntent(this);
               startActivity(intent);
             });
