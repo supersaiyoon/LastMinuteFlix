@@ -27,4 +27,9 @@
     <string name="button_add_showtime">Add Showtime</string>
     <string name="default_fragment_username">Username</string>
     <string name="fragment_button_delete">Delete</string>
+    <string name="display_add_a_movie">Add a Movie</string>
+    <string name="hint_add_movie_title">Title</string>
+    <string name="prompt_select_genre">Select Genre</string>
+    <string name="hint_add_movie_duration">Duration (in minutes)</string>
+    <string name="hint_add_movie_rating">Rating</string>
 </resources>
