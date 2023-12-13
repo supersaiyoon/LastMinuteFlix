@@ -35,10 +35,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
   public void onBindViewHolder(UserViewHolder holder, int position) {
     User user = mUsers.get(position);
     holder.mRecyclerUserNameTextView.setText(user.getUsername());
-    holder.mRecyclerDeleteButton.setOnClickListener(v -> {
-      int userId = user.getUserId();
-      deleteUser(userId);
-    });
+    holder.mRecyclerDeleteButton.setOnClickListener(v -> deleteUser(position));
   }
 
   @Override

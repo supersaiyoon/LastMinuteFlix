@@ -1,7 +1,7 @@
 package com.byoon.lastminuteflix.ui;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,22 +18,23 @@ import com.byoon.lastminuteflix.entity.User;
 import java.util.List;
 
 public class UserListFragment extends Fragment {
-  private RecyclerView mUserRecyclerView;
-  private UserAdapter mAdapter;
-  private UserDao mUserDao;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_user_list, container, false);
 
-    mUserRecyclerView = view.findViewById(R.id.recycler_view);
-    mUserRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    RecyclerView userRecyclerView = view.findViewById(R.id.recycler_view);
+    userRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
     // Fetch user data from database
-    mUserDao = AppDatabase.getInstance(getContext()).getUserDao();
-    List<User> users = mUserDao.getAllUsers();
-    mAdapter = new UserAdapter(users, mUserDao);
-    mUserRecyclerView.setAdapter(mAdapter);
+    UserDao userDao = AppDatabase.getInstance(getContext()).getUserDao();
+    List<User> users = userDao.getAllUsers();
+
+    // DEBUG: Check the size of user list.
+    Log.d("UserListFragment", "Number of users = " + users.size());
+
+    UserAdapter adapter = new UserAdapter(users, userDao);
+    userRecyclerView.setAdapter(adapter);
 
     return view;
   }
