@@ -88,6 +88,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     mLogOutButton.setOnClickListener(v -> showLogoutConfirmationDialog());
+    mAdminButton.setOnClickListener(v -> goToAdminActivity());
+  }
+
+  private void goToAdminActivity() {
+    Intent intent = IntentFactory.createAdminActivityIntent(this);
+    startActivity(intent);
   }
 
   private void showLogoutConfirmationDialog() {
