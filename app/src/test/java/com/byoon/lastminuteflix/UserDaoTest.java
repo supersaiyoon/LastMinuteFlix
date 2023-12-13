@@ -110,7 +110,8 @@ public class UserDaoTest {
     // Given
     User user1 = new User("user1", "password1", false);
     User user2 = new User("user2", "password2", true);
-    userDao.insert(user1, user2);
+    userDao.insert(user1);
+    userDao.insert(user2);
 
     // When
     List<User> allUsers = userDao.getAllUsers();
