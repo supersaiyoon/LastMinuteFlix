@@ -16,7 +16,7 @@ import com.byoon.lastminuteflix.entity.Movie;
 @Dao
 public interface MovieDao {
   @Insert
-  long[] insert(Movie... movies);
+  void insert(Movie... movies);
 
   @Update
   void update(Movie... movies);

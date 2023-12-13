@@ -1,0 +1,196 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "ae4766df7e817d181e8e59291bea20e2",
+    "entities": [
+      {
+        "tableName": "USER_TABLE",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mUserId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mUsername` TEXT, `mPassword` TEXT, `mIsAdmin` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "mUserId",
+            "columnName": "mUserId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mUsername",
+            "columnName": "mUsername",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mPassword",
+            "columnName": "mPassword",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mIsAdmin",
+            "columnName": "mIsAdmin",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "mUserId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "GENRE_TABLE",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mGenreId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mGenreName` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "mGenreId",
+            "columnName": "mGenreId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mGenreName",
+            "columnName": "mGenreName",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "mGenreId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "MOVIE_TABLE",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mMovieId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mGenreId` INTEGER NOT NULL, `mTitle` TEXT, `mDuration` INTEGER NOT NULL, `mRating` TEXT, FOREIGN KEY(`mGenreId`) REFERENCES `GENRE_TABLE`(`mGenreId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "mMovieId",
+            "columnName": "mMovieId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mGenreId",
+            "columnName": "mGenreId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mTitle",
+            "columnName": "mTitle",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mDuration",
+            "columnName": "mDuration",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mRating",
+            "columnName": "mRating",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "mMovieId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "GENRE_TABLE",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "mGenreId"
+            ],
+            "referencedColumns": [
+              "mGenreId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "THEATER_TABLE",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mTheaterId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mMovieId` INTEGER NOT NULL, `mTheaterName` TEXT, `mTheaterCityState` TEXT, `mShowTime` TEXT, `nRemainingSeats` INTEGER NOT NULL, FOREIGN KEY(`mMovieId`) REFERENCES `MOVIE_TABLE`(`mMovieId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "mTheaterId",
+            "columnName": "mTheaterId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mMovieId",
+            "columnName": "mMovieId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mTheaterName",
+            "columnName": "mTheaterName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mTheaterCityState",
+            "columnName": "mTheaterCityState",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mShowTime",
+            "columnName": "mShowTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nRemainingSeats",
+            "columnName": "nRemainingSeats",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "mTheaterId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "MOVIE_TABLE",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "mMovieId"
+            ],
+            "referencedColumns": [
+              "mMovieId"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ae4766df7e817d181e8e59291bea20e2')"
+    ]
+  }
+}
