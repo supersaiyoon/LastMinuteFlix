@@ -34,4 +34,10 @@
     <string name="hint_add_movie_rating">Rating</string>
     <string name="display_add_movie_genre">Add a Movie Genre</string>
     <string name="hint_enter_genre">Enter genre</string>
+    <string name="display_add_showtime">Add a Movie Showtime</string>
+    <string name="hint_theater_name">Theater name</string>
+    <string name="hint_city_state">City, State</string>
+    <string name="hint_showtime">Showtime (e.g. 7:30 PM)</string>
+    <string name="hint_ticket_price">Ticket price (no dollar sign)</string>
+    <string name="hint_num_seats">Number of seats</string>
 </resources>

@@ -21,7 +21,7 @@ public class UserListFragment extends Fragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_user_list, container, false);
+    View view = inflater.inflate(R.layout.fragment_list, container, false);
 
     RecyclerView userRecyclerView = view.findViewById(R.id.recycler_view);
     userRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

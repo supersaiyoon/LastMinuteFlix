@@ -11,15 +11,16 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.byoon.lastminuteflix.R;
 import com.byoon.lastminuteflix.db.AppDatabase;
 import com.byoon.lastminuteflix.db.GenreDao;
 import com.byoon.lastminuteflix.db.MovieDao;
+import com.byoon.lastminuteflix.db.TheaterDao;
 import com.byoon.lastminuteflix.entity.Genre;
 import com.byoon.lastminuteflix.entity.Movie;
+import com.byoon.lastminuteflix.entity.Theater;
 import com.byoon.lastminuteflix.utils.IntentFactory;
 
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ import java.util.List;
  * @since 2023-12-13
  */
 public class AdminActivity extends AppCompatActivity {
-  private TextView mWelcomeMessageTextView;
   private Button mLogOutButton;
   private Button mDeleteUserButton;
   private Button mAddMovieGenreButton;
@@ -41,10 +41,12 @@ public class AdminActivity extends AppCompatActivity {
   private Button mAddShowtimeButton;
 
   List<Genre> genres;
+  List<Movie> movies;
 
   AppDatabase mDatabase = AppDatabase.getInstance(this);
   GenreDao genreDao = mDatabase.getGenreDao();
   MovieDao movieDao = mDatabase.getMovieDao();
+  TheaterDao theaterDao = mDatabase.getTheaterDao();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +70,11 @@ public class AdminActivity extends AppCompatActivity {
             .replace(R.id.fragment_container_admin, new MovieListFragment())
             .addToBackStack(null)
             .commit());
+
+    mAddShowtimeButton.setOnClickListener(v -> showAddTheaterDialog());
   }
 
   private void initializeViews() {
-    mWelcomeMessageTextView = findViewById(R.id.text_admin);
     mLogOutButton = findViewById(R.id.button_logout);
     mDeleteUserButton = findViewById(R.id.button_delete_user);
     mAddMovieGenreButton = findViewById(R.id.button_add_movie_genre);
@@ -128,6 +131,21 @@ public class AdminActivity extends AppCompatActivity {
     dialog.show();
   }
 
+  private void showAddTheaterDialog() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    LayoutInflater inflater = getLayoutInflater();
+    View dialogView = inflater.inflate(R.layout.dialog_admin_add_theater, null);
+    builder.setView(dialogView);
+
+    Spinner movieSpinner = setupMovieSpinner(dialogView);
+
+    builder.setPositiveButton("Save", (dialog, id) -> handleAddTheaterSaveAction(dialogView, movieSpinner));
+    builder.setNegativeButton("Cancel", (dialog, id) -> dialog.dismiss());
+
+    AlertDialog dialog = builder.create();
+    dialog.show();
+  }
+
   private Spinner setupGenreSpinner(View dialogView) {
     Spinner genreSpinner = dialogView.findViewById(R.id.genre_spinner);
     List<String> genreNames = getGenreNames();
@@ -135,6 +153,15 @@ public class AdminActivity extends AppCompatActivity {
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     genreSpinner.setAdapter(adapter);
     return genreSpinner;
+  }
+
+  private Spinner setupMovieSpinner(View dialogView) {
+    Spinner theaterSpinner = dialogView.findViewById(R.id.theater_movie_spinner);
+    List<String> movieNames = getMovieNames();
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, movieNames);
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    theaterSpinner.setAdapter(adapter);
+    return theaterSpinner;
   }
 
   private List<String> getGenreNames() {
@@ -147,6 +174,16 @@ public class AdminActivity extends AppCompatActivity {
     return genreNames;
   }
 
+  private List<String> getMovieNames() {
+    movies = movieDao.getAllMovies();
+    List<String> movieNames = new ArrayList<>();
+    movieNames.add("Select a movie");
+    for (Movie movie : movies) {
+      movieNames.add(movie.getTitle());
+    }
+    return movieNames;
+  }
+
   private void handleAddGenreSaveAction(View dialogView) {
     String genreName = getTextFromEditText(dialogView, R.id.edittext_movie_genre);
 
@@ -157,15 +194,32 @@ public class AdminActivity extends AppCompatActivity {
 
   private void handleAddMovieSaveAction(View dialogView, Spinner genreSpinner) {
     String movieTitle = getTextFromEditText(dialogView, R.id.edittext_movie_title);
-    int selectedGenreIndex = genreSpinner.getSelectedItemPosition();
     String movieDurationString = getTextFromEditText(dialogView, R.id.edittext_movie_duration);
     String movieRating = getTextFromEditText(dialogView, R.id.edittext_movie_rating);
 
+    int selectedGenreIndex = genreSpinner.getSelectedItemPosition();
     long genreId = selectedGenreIndex > 0 ? genres.get(selectedGenreIndex - 1).getGenreId() : -1;
     int movieDuration = parseToInt(movieDurationString);
 
     if (validateMovieInput(movieTitle, movieDuration, movieRating, genreId)) {
       saveMovieToDatabase(genreId, movieTitle, movieDuration, movieRating);
+    }
+  }
+
+  private void handleAddTheaterSaveAction(View dialogView, Spinner movieSpinner) {
+    String theaterName = getTextFromEditText(dialogView, R.id.edittext_theater_name);
+    String theaterCityState = getTextFromEditText(dialogView, R.id.edittext_theater_city_state);
+    String showTime = getTextFromEditText(dialogView, R.id.edittext_showtime);
+    String ticketPriceString = getTextFromEditText(dialogView, R.id.edittext_ticket_price);
+    String remainingSeatsString = getTextFromEditText(dialogView, R.id.edittext_num_seats);
+
+    int selectedMovieIndex = movieSpinner.getSelectedItemPosition();
+    long movieId = selectedMovieIndex > 0 ? movies.get(selectedMovieIndex - 1).getMovieId() : -1;
+    double ticketPrice = parseToDouble(ticketPriceString);
+    int remainingSeats = parseToInt(remainingSeatsString);
+
+    if (validateTheaterInput(theaterName, theaterCityState, showTime, ticketPrice, remainingSeats, movieId)) {
+      saveTheaterToDatabase(theaterName, theaterCityState, showTime, ticketPrice, remainingSeats, movieId);
     }
   }
 
@@ -177,6 +231,14 @@ public class AdminActivity extends AppCompatActivity {
   private int parseToInt(String numberString) {
     try {
       return Integer.parseInt(numberString);
+    } catch (NumberFormatException e) {
+      return -1;
+    }
+  }
+
+  private double parseToDouble(String numberString) {
+    try {
+      return Double.parseDouble(numberString);
     } catch (NumberFormatException e) {
       return -1;
     }
@@ -221,6 +283,29 @@ public class AdminActivity extends AppCompatActivity {
     return true;
   }
 
+  private boolean validateTheaterInput(String theaterName, String theaterCityState, String showTime, double ticketPrice, int remainingSeats, long movieId) {
+    if (theaterName.isEmpty()) {
+      Toast.makeText(this, "Please enter a theater name", Toast.LENGTH_SHORT).show();
+      return false;
+    } else if (theaterCityState.isEmpty()) {
+      Toast.makeText(this, "Please enter a theater city and state", Toast.LENGTH_SHORT).show();
+      return false;
+    } else if (showTime.isEmpty()) {
+      Toast.makeText(this, "Please enter a showtime", Toast.LENGTH_SHORT).show();
+      return false;
+    } else if (ticketPrice < 0) {
+      Toast.makeText(this, "Please enter a valid ticket price", Toast.LENGTH_SHORT).show();
+      return false;
+    } else if (remainingSeats < 0) {
+      Toast.makeText(this, "Please enter a valid number of seats", Toast.LENGTH_SHORT).show();
+      return false;
+    } else if (movieId < 0) {
+      Toast.makeText(this, "Please select a movie", Toast.LENGTH_SHORT).show();
+      return false;
+    }
+    return true;
+  }
+
   private void saveGenreToDatabase(String genreName) {
     // Genre doesn't exist, so safe to add.
     Genre genre = new Genre(genreName);
@@ -233,5 +318,12 @@ public class AdminActivity extends AppCompatActivity {
     Movie movie = new Movie(genreId, title, duration, rating);
     movieDao.insert(movie);
     Toast.makeText(this, "Movie successfully added", Toast.LENGTH_SHORT).show();
+  }
+
+  private void saveTheaterToDatabase(String theaterName, String theaterCityState, String showTime, double ticketPrice, int remainingSeats, long movieId) {
+    // Safe to add theater at this point.
+    Theater theater = new Theater(movieId, theaterName, theaterCityState, showTime, ticketPrice, remainingSeats);
+    theaterDao.insert(theater);
+    Toast.makeText(this, "Theater successfully added", Toast.LENGTH_SHORT).show();
   }
 }

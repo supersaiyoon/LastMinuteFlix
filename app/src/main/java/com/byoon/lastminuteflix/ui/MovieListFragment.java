@@ -1,7 +1,6 @@
 package com.byoon.lastminuteflix.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ public class MovieListFragment extends Fragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_user_list, container, false);
+    View view = inflater.inflate(R.layout.fragment_list, container, false);
 
     RecyclerView movieRecyclerView = view.findViewById(R.id.recycler_view);
     movieRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -29,9 +28,6 @@ public class MovieListFragment extends Fragment {
     // Fetch movie data from database
     MovieDao movieDao = AppDatabase.getInstance(getContext()).getMovieDao();
     List<Movie> movies = movieDao.getAllMovies();
-
-    // DEBUG: Check the size of movie list.
-    Log.d("MovieListFragment", "Number of movies = " + movies.size());
 
     MovieAdapter adapter = new MovieAdapter(movies, movieDao);
     movieRecyclerView.setAdapter(adapter);
