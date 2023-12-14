@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 import com.byoon.lastminuteflix.db.AppDatabase;
 
-@Entity(tableName = AppDatabase.SHOPPING_CART_TABLE,
+@Entity(tableName = AppDatabase.ORDER_HISTORY_TABLE,
         foreignKeys = {
             @ForeignKey(entity = User.class,
                 parentColumns = "mUserId",
@@ -18,25 +18,25 @@ import com.byoon.lastminuteflix.db.AppDatabase;
                 childColumns = "mTheaterId",
                 onDelete = ForeignKey.CASCADE)},
         indices = {@Index(value = {"mUserId", "mTheaterId"})})
-public class ShoppingCart {
+public class OrderHistory {
   @PrimaryKey(autoGenerate = true)
-  private long shoppingCartId;
+  private long mOrderHistoryId;
 
   // Foreign keys
   private long mUserId;
   private long mTheaterId;
 
-  public ShoppingCart(long userId, long theaterId) {
+  public OrderHistory(long userId, long theaterId) {
     mUserId = userId;
     mTheaterId = theaterId;
   }
 
-  public long getShoppingCartId() {
-    return shoppingCartId;
+  public long getOrderHistoryId() {
+    return mOrderHistoryId;
   }
 
-  public void setShoppingCartId(long shoppingCartId) {
-    this.shoppingCartId = shoppingCartId;
+  public void setOrderHistoryId(long shoppingCartId) {
+    this.mOrderHistoryId = shoppingCartId;
   }
 
   public long getUserId() {

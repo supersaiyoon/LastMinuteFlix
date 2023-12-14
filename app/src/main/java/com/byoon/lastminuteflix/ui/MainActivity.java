@@ -15,9 +15,11 @@ import com.byoon.lastminuteflix.R;
 import com.byoon.lastminuteflix.db.AppDatabase;
 import com.byoon.lastminuteflix.db.GenreDao;
 import com.byoon.lastminuteflix.db.MovieDao;
+import com.byoon.lastminuteflix.db.TheaterDao;
 import com.byoon.lastminuteflix.db.UserDao;
 import com.byoon.lastminuteflix.entity.Genre;
 import com.byoon.lastminuteflix.entity.Movie;
+import com.byoon.lastminuteflix.entity.Theater;
 import com.byoon.lastminuteflix.entity.User;
 import com.byoon.lastminuteflix.utils.IntentFactory;
 import com.byoon.lastminuteflix.utils.KeyConstants;
@@ -36,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
   private TextView mWelcomeMessageTextView;
   private Button mBrowseMoviesButton;
-  private Button mShoppingCartButton;
   private Button mOrderHistoryButton;
   private Button mAdminButton;
   private Button mLogOutButton;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
   private UserDao mUserDao;
   private GenreDao mGenreDao;
   private MovieDao mMovieDao;
+  private TheaterDao mTheaterDao;
   private SharedPreferences mPreferences = null;
 
   @Override
@@ -59,18 +61,16 @@ public class MainActivity extends AppCompatActivity {
 
     initializeGenres();
     initializeMovies();
+    initializeTheaters();
 
-    if (!checkForUser()) {
-      return;  // Exit if no user found.
+    if (checkForUser()) {
+      initializeUser();
+      initializeViews();
+
+      String username = mUser.getUsername();
+      updateWelcomeMessage(username);
+      addUserToPreferences(mUserId);
     }
-
-    initializeUser();
-    initializeViews();
-
-    String username = mUser.getUsername();
-    updateWelcomeMessage(username);
-
-    addUserToPreferences(mUserId);
   }
 
   private void updateWelcomeMessage(String username) {
@@ -84,12 +84,12 @@ public class MainActivity extends AppCompatActivity {
     mUserDao = appDatabase.getUserDao();
     mGenreDao = appDatabase.getGenreDao();
     mMovieDao = appDatabase.getMovieDao();
+    mTheaterDao = appDatabase.getTheaterDao();
   }
 
   private void initializeViews() {
     mWelcomeMessageTextView = findViewById(R.id.text_welcome);
     mBrowseMoviesButton = findViewById(R.id.button_browse_movies);
-    mShoppingCartButton = findViewById(R.id.button_shopping_cart);
     mOrderHistoryButton = findViewById(R.id.button_order_history);
     mAdminButton = findViewById(R.id.button_admin);
     mLogOutButton = findViewById(R.id.button_logout);
@@ -210,6 +210,21 @@ public class MainActivity extends AppCompatActivity {
       mMovieDao.insert(new Movie(1, "The Matrix", 136, "R"));
       mMovieDao.insert(new Movie(2, "The Hangover", 100, "R"));
       mMovieDao.insert(new Movie(3, "The Dark Knight", 152, "PG-13"));
+    }
+  }
+
+  private void initializeTheaters() {
+    // Check if theaters already exist in the database to avoid duplicate entries.
+    List<Theater> existingTheaters = mTheaterDao.getAllTheaters();
+    if (existingTheaters == null || existingTheaters.isEmpty()) {
+      // Fetch movies from the database
+      List<Movie> movies = mMovieDao.getAllMovies();
+      if (movies != null && !movies.isEmpty()) {
+        // Insert theaters with a movie ID, name, city, showtime, price, and seat count
+        mTheaterDao.insert(new Theater(movies.get(0).getMovieId(), "Regal Cinema 16", "Rocklin, CA", "8:00 PM", 15.99, 200));
+        mTheaterDao.insert(new Theater(movies.get(1).getMovieId(), "AMC Theater", "Natomas, CA", "9:00 PM", 12.99, 150));
+        mTheaterDao.insert(new Theater(movies.get(2).getMovieId(), "Cinemark 14", "Sacramento, CA", "7:00 PM", 10.99, 100));
+      }
     }
   }
 }

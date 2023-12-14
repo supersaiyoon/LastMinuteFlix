@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.byoon.lastminuteflix.R;
 import com.byoon.lastminuteflix.db.AppDatabase;
-import com.byoon.lastminuteflix.db.ShoppingCartDao;
-import com.byoon.lastminuteflix.entity.ShoppingCart;
+import com.byoon.lastminuteflix.db.OrderHistoryDao;
+import com.byoon.lastminuteflix.entity.OrderHistory;
 import com.byoon.lastminuteflix.entity.Theater;
 import com.byoon.lastminuteflix.utils.KeyConstants;
 
@@ -23,14 +23,14 @@ import java.util.Locale;
 
 public class BrowseShowtimeAdapter extends RecyclerView.Adapter<BrowseShowtimeAdapter.ShowtimeViewHolder> {
   private final List<Theater> mTheaters;
-  private final ShoppingCartDao mShoppingCartDao;
+  private final OrderHistoryDao mOrderHistoryDao;
   private final Context mContext;
 
   public BrowseShowtimeAdapter(Context context, List<Theater> theaters) {
     mContext = context;
     mTheaters = theaters;
     AppDatabase appDatabase = AppDatabase.getInstance(context);
-    mShoppingCartDao = appDatabase.getShoppingCartDao();
+    mOrderHistoryDao = appDatabase.getOrderHistoryDao();
   }
 
   @NonNull
@@ -47,7 +47,7 @@ public class BrowseShowtimeAdapter extends RecyclerView.Adapter<BrowseShowtimeAd
     holder.mRecyclerShowtimeMovieTitleTextView.setText(theater.getMovieTitle());
     holder.mRecyclerShowtimeShowtimeTextView.setText(theater.getShowTime());
     holder.mRecyclerShowtimeTicketPriceTextView.setText(String.format(Locale.getDefault(), "$%.2f", theater.getTicketPrice()));
-    holder.mRecyclerBuyButton.setOnClickListener(v -> addTheaterToCart(position));
+    holder.mRecyclerBuyButton.setOnClickListener(v -> purchaseShowtimeTicket(position));
   }
 
   @Override
@@ -72,15 +72,15 @@ public class BrowseShowtimeAdapter extends RecyclerView.Adapter<BrowseShowtimeAd
     }
   }
 
-  private void addTheaterToCart(int position) {
+  private void purchaseShowtimeTicket(int position) {
     // Get user ID from SharedPreferences.
     SharedPreferences sharedPreferences = mContext.getSharedPreferences(KeyConstants.PREFERENCES_KEY.getKey(), Context.MODE_PRIVATE);
     int userId = sharedPreferences.getInt(KeyConstants.USER_ID_KEY.getKey(), -1);
 
     if (userId != -1) {
       Theater theater = mTheaters.get(position);
-      ShoppingCart cart = new ShoppingCart(userId, theater.getTheaterId());
-      mShoppingCartDao.insert(cart);
+      OrderHistory cart = new OrderHistory(userId, theater.getTheaterId());
+      mOrderHistoryDao.insert(cart);
     }
   }
 }
