@@ -47,10 +47,10 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/fragment_browse_showtime_list_add_to_cart_button"
+            android:id="@+id/fragment_browse_showtime_list_buy_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/fragment_list_item_button_add"
+            android:text="@string/fragment_list_item_button_buy"
             android:textSize="14sp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

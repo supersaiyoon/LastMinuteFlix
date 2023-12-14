@@ -221,9 +221,9 @@ public class MainActivity extends AppCompatActivity {
       List<Movie> movies = mMovieDao.getAllMovies();
       if (movies != null && !movies.isEmpty()) {
         // Insert theaters with a movie ID, name, city, showtime, price, and seat count
-        mTheaterDao.insert(new Theater(movies.get(0).getMovieId(), "Regal Cinema 16", "Rocklin, CA", "8:00 PM", 15.99, 200));
-        mTheaterDao.insert(new Theater(movies.get(1).getMovieId(), "AMC Theater", "Natomas, CA", "9:00 PM", 12.99, 150));
-        mTheaterDao.insert(new Theater(movies.get(2).getMovieId(), "Cinemark 14", "Sacramento, CA", "7:00 PM", 10.99, 100));
+        mTheaterDao.insert(new Theater(movies.get(0).getMovieId(), "Regal Cinema 16", "Rocklin, CA", "8:00 PM", 15.99, 5));
+        mTheaterDao.insert(new Theater(movies.get(1).getMovieId(), "AMC Theater", "Natomas, CA", "9:00 PM", 12.99, 10));
+        mTheaterDao.insert(new Theater(movies.get(2).getMovieId(), "The Loner's Theater", "Sacramento, CA", "1:00 PM", 1.00, 1));
       }
     }
   }

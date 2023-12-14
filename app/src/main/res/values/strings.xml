@@ -29,7 +29,7 @@
     <string name="fragment_list_item_movie_title">Movie Title</string>
     <string name="fragment_list_item_showtime">Showtime</string>
     <string name="fragment_list_item_ticket_price">Ticket Price</string>
-    <string name="fragment_list_item_button_add">Add</string>
+    <string name="fragment_list_item_button_buy">Buy</string>
     <string name="fragment_browse_showtime_list_theater_name">Theater Name</string>
     <string name="fragment_list_item_button_delete">Delete</string>
     <string name="display_add_a_movie">Add a Movie</string>
