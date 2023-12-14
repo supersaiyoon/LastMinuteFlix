@@ -25,7 +25,12 @@
     <string name="button_add_movie">Add Movie</string>
     <string name="button_delete_movie">Delete Movie</string>
     <string name="button_add_showtime">Add Showtime</string>
-    <string name="fragment_list_item_default">Default item name</string>
+    <string name="fragment_list_item_theater_name">Theater Name</string>
+    <string name="fragment_list_item_movie_title">Movie Title</string>
+    <string name="fragment_list_item_showtime">Showtime</string>
+    <string name="fragment_list_item_ticket_price">Ticket Price</string>
+    <string name="fragment_list_item_button_buy">Buy</string>
+    <string name="fragment_browse_showtime_list_theater_name">Theater Name</string>
     <string name="fragment_list_item_button_delete">Delete</string>
     <string name="display_add_a_movie">Add a Movie</string>
     <string name="hint_add_movie_title">Title</string>
@@ -40,4 +45,5 @@
     <string name="hint_showtime">Showtime (e.g. 7:30 PM)</string>
     <string name="hint_ticket_price">Ticket price (no dollar sign)</string>
     <string name="hint_num_seats">Number of seats</string>
+    <string name="display_browse_showtime">Browse Movie Showtimes</string>
 </resources>

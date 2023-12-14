@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 5,
-    "identityHash": "9154ee34d022d3bd7036cec2ad364cf0",
+    "version": 6,
+    "identityHash": "505d6202cebddbca16bf328611c382f6",
     "entities": [
       {
         "tableName": "USER_TABLE",
@@ -219,12 +219,12 @@
         ]
       },
       {
-        "tableName": "SHOPPING_CART_TABLE",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`shoppingCartId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mUserId` INTEGER NOT NULL, `mTheaterId` INTEGER NOT NULL, FOREIGN KEY(`mUserId`) REFERENCES `USER_TABLE`(`mUserId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`mTheaterId`) REFERENCES `THEATER_TABLE`(`mTheaterId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "tableName": "ORDER_HISTORY_TABLE",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mOrderHistoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mUserId` INTEGER NOT NULL, `mTheaterId` INTEGER NOT NULL, FOREIGN KEY(`mUserId`) REFERENCES `USER_TABLE`(`mUserId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`mTheaterId`) REFERENCES `THEATER_TABLE`(`mTheaterId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
-            "fieldPath": "shoppingCartId",
-            "columnName": "shoppingCartId",
+            "fieldPath": "mOrderHistoryId",
+            "columnName": "mOrderHistoryId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -244,19 +244,19 @@
         "primaryKey": {
           "autoGenerate": true,
           "columnNames": [
-            "shoppingCartId"
+            "mOrderHistoryId"
           ]
         },
         "indices": [
           {
-            "name": "index_SHOPPING_CART_TABLE_mUserId_mTheaterId",
+            "name": "index_ORDER_HISTORY_TABLE_mUserId_mTheaterId",
             "unique": false,
             "columnNames": [
               "mUserId",
               "mTheaterId"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_SHOPPING_CART_TABLE_mUserId_mTheaterId` ON `${TABLE_NAME}` (`mUserId`, `mTheaterId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_ORDER_HISTORY_TABLE_mUserId_mTheaterId` ON `${TABLE_NAME}` (`mUserId`, `mTheaterId`)"
           }
         ],
         "foreignKeys": [
@@ -288,7 +288,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9154ee34d022d3bd7036cec2ad364cf0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '505d6202cebddbca16bf328611c382f6')"
     ]
   }
 }

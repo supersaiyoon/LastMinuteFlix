@@ -6,6 +6,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.byoon.lastminuteflix.db.AppDatabase;
+import com.byoon.lastminuteflix.db.MovieDao;
 
 @Entity(tableName = AppDatabase.THEATER_TABLE,
         foreignKeys = @ForeignKey(entity = Movie.class,
@@ -22,6 +23,7 @@ public class Theater {
 
   private String mTheaterName;
   private String mTheaterCityState;  // e.g. "Sacramento, CA"
+  private String mMovieTitle;
   private String mShowTime;  // e.g. "7:30 PM"
   private double mTicketPrice;
   private int mRemainingSeats;
@@ -89,6 +91,14 @@ public class Theater {
 
   public void setRemainingSeats(int remainingSeats) {
     this.mRemainingSeats = remainingSeats;
+  }
+
+  public String getMovieTitle() {
+    return mMovieTitle;
+  }
+
+  public void setMovieTitle(String movieTitle) {
+    mMovieTitle = movieTitle;
   }
 
   public void decrementRemainingSeats() {

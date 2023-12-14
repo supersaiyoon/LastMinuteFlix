@@ -8,6 +8,8 @@ import androidx.room.Update;
 
 import com.byoon.lastminuteflix.entity.Theater;
 
+import java.util.List;
+
 /**
  * Data access object for Theater entity. Used to display movie showtimes for users to purchase.
  * @author Brian Yoon
@@ -23,6 +25,9 @@ public interface TheaterDao {
 
   @Delete
   void delete(Theater... theaters);
+
+  @Query("SELECT * FROM " + AppDatabase.THEATER_TABLE)
+  List<Theater> getAllTheaters();
 
   @Query("SELECT * FROM " + AppDatabase.THEATER_TABLE + " WHERE mTheaterId = :theaterId")
   Theater getTheaterById(long theaterId);

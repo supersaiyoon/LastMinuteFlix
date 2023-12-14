@@ -8,25 +8,25 @@ import androidx.room.RoomDatabase;
 
 import com.byoon.lastminuteflix.entity.Genre;
 import com.byoon.lastminuteflix.entity.Movie;
-import com.byoon.lastminuteflix.entity.ShoppingCart;
+import com.byoon.lastminuteflix.entity.OrderHistory;
 import com.byoon.lastminuteflix.entity.Theater;
 import com.byoon.lastminuteflix.entity.User;
 
-@Database(entities = {User.class, Genre.class, Movie.class, Theater.class, ShoppingCart.class}, version = 5)
+@Database(entities = {User.class, Genre.class, Movie.class, Theater.class, OrderHistory.class}, version = 6)
 public abstract class AppDatabase extends RoomDatabase {
   public static final String DB_NAME = "LASTMINUTEFLIX_DATABASE";
   public static final String USER_TABLE = "USER_TABLE";
   public static final String GENRE_TABLE = "GENRE_TABLE";
   public static final String MOVIE_TABLE = "MOVIE_TABLE";
   public static final String THEATER_TABLE = "THEATER_TABLE";
-  public static final String SHOPPING_CART_TABLE = "SHOPPING_CART_TABLE";
+  public static final String ORDER_HISTORY_TABLE = "ORDER_HISTORY_TABLE";
   private static AppDatabase instance;
 
   public abstract UserDao getUserDao();
   public abstract GenreDao getGenreDao();
   public abstract MovieDao getMovieDao();
   public abstract TheaterDao getTheaterDao();
-  public abstract ShoppingCartDao getShoppingCartDao();
+  public abstract OrderHistoryDao getOrderHistoryDao();
 
   // Ensure singleton design pattern.
   public static synchronized AppDatabase getInstance(Context context) {
