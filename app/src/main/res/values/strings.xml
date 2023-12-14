@@ -32,4 +32,6 @@
     <string name="prompt_select_genre">Select Genre</string>
     <string name="hint_add_movie_duration">Duration (in minutes)</string>
     <string name="hint_add_movie_rating">Rating</string>
+    <string name="display_add_movie_genre">Add a Movie Genre</string>
+    <string name="hint_enter_genre">Enter genre</string>
 </resources>
