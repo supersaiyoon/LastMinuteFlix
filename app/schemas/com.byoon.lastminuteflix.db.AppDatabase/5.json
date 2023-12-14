@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "d705af71f9c258f4622e952fad49d3d7",
+    "identityHash": "9154ee34d022d3bd7036cec2ad364cf0",
     "entities": [
       {
         "tableName": "USER_TABLE",
@@ -136,7 +136,7 @@
       },
       {
         "tableName": "THEATER_TABLE",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mTheaterId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mMovieId` INTEGER NOT NULL, `mTheaterName` TEXT, `mTheaterCityState` TEXT, `mShowTime` TEXT, `mTicketPrice` REAL NOT NULL, `mRemainingSeats` INTEGER NOT NULL, FOREIGN KEY(`mMovieId`) REFERENCES `MOVIE_TABLE`(`mMovieId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mTheaterId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mMovieId` INTEGER NOT NULL, `mTheaterName` TEXT, `mTheaterCityState` TEXT, `mMovieTitle` TEXT, `mShowTime` TEXT, `mTicketPrice` REAL NOT NULL, `mRemainingSeats` INTEGER NOT NULL, FOREIGN KEY(`mMovieId`) REFERENCES `MOVIE_TABLE`(`mMovieId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "mTheaterId",
@@ -159,6 +159,12 @@
           {
             "fieldPath": "mTheaterCityState",
             "columnName": "mTheaterCityState",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mMovieTitle",
+            "columnName": "mMovieTitle",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -282,7 +288,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd705af71f9c258f4622e952fad49d3d7')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9154ee34d022d3bd7036cec2ad364cf0')"
     ]
   }
 }

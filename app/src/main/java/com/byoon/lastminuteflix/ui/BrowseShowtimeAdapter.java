@@ -19,6 +19,7 @@ import com.byoon.lastminuteflix.entity.Theater;
 import com.byoon.lastminuteflix.utils.KeyConstants;
 
 import java.util.List;
+import java.util.Locale;
 
 public class BrowseShowtimeAdapter extends RecyclerView.Adapter<BrowseShowtimeAdapter.ShowtimeViewHolder> {
   private final List<Theater> mTheaters;
@@ -35,14 +36,17 @@ public class BrowseShowtimeAdapter extends RecyclerView.Adapter<BrowseShowtimeAd
   @NonNull
   @Override
   public ShowtimeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_list_item_add, parent, false);
+    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_browse_showtime_list, parent, false);
     return new ShowtimeViewHolder(view);
   }
 
   @Override
   public void onBindViewHolder(ShowtimeViewHolder holder, int position) {
     Theater theater = mTheaters.get(position);
-    holder.mRecyclerShowtimeTextView.setText(theater.getTheaterName());
+    holder.mRecyclerShowtimeTheaterTextView.setText(theater.getTheaterName());
+    holder.mRecyclerShowtimeMovieTitleTextView.setText(theater.getMovieTitle());
+    holder.mRecyclerShowtimeShowtimeTextView.setText(theater.getShowTime());
+    holder.mRecyclerShowtimeTicketPriceTextView.setText(String.format(Locale.getDefault(), "$%.2f", theater.getTicketPrice()));
     holder.mRecyclerBuyButton.setOnClickListener(v -> addTheaterToCart(position));
   }
 
@@ -52,13 +56,19 @@ public class BrowseShowtimeAdapter extends RecyclerView.Adapter<BrowseShowtimeAd
   }
 
   static class ShowtimeViewHolder extends RecyclerView.ViewHolder {
-    TextView mRecyclerShowtimeTextView;
+    TextView mRecyclerShowtimeTheaterTextView;
+    TextView mRecyclerShowtimeMovieTitleTextView;
+    TextView mRecyclerShowtimeShowtimeTextView;
+    TextView mRecyclerShowtimeTicketPriceTextView;
     Button mRecyclerBuyButton;
 
     ShowtimeViewHolder(View itemView) {
       super(itemView);
-      mRecyclerShowtimeTextView = itemView.findViewById(R.id.fragment_buy_list_item_text);
-      mRecyclerBuyButton = itemView.findViewById(R.id.fragment_list_item_button_add_to_cart);
+      mRecyclerShowtimeTheaterTextView = itemView.findViewById(R.id.fragment_browse_showtime_list_theater_name);
+      mRecyclerShowtimeMovieTitleTextView = itemView.findViewById(R.id.fragment_browse_showtime_list_movie_title);
+      mRecyclerShowtimeShowtimeTextView = itemView.findViewById(R.id.fragment_browse_showtime_list_showtime);
+      mRecyclerShowtimeTicketPriceTextView = itemView.findViewById(R.id.fragment_browse_showtime_list_ticket_price);
+      mRecyclerBuyButton = itemView.findViewById(R.id.fragment_browse_showtime_list_add_to_cart_button);
     }
   }
 
