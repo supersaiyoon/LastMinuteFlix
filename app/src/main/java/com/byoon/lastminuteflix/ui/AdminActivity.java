@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -60,6 +59,11 @@ public class AdminActivity extends AppCompatActivity {
             .commit());
 
     mAddMovieButton.setOnClickListener(v -> showAddMovieDialog());
+
+    mDeleteMovieButton.setOnClickListener(v -> getSupportFragmentManager().beginTransaction()
+            .replace(R.id.fragment_container_admin, new MovieListFragment())
+            .addToBackStack(null)
+            .commit());
   }
 
   private void initializeViews() {

@@ -26,6 +26,9 @@ public interface MovieDao {
   @Delete
   void delete(Movie... movies);
 
+  @Query("DELETE FROM " + AppDatabase.MOVIE_TABLE + " WHERE mMovieId = :movieId")
+  void deleteMovieByMovieId(long movieId);
+
   @Query("SELECT * FROM " + AppDatabase.MOVIE_TABLE)
   List<Movie> getAllMovies();
 

@@ -50,8 +50,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     UserViewHolder(View itemView) {
       super(itemView);
-      mRecyclerUserNameTextView = itemView.findViewById(R.id.fragment_text_username);
-      mRecyclerDeleteButton = itemView.findViewById(R.id.fragment_button_delete_user);
+      mRecyclerUserNameTextView = itemView.findViewById(R.id.fragment_list_item_text);
+      mRecyclerDeleteButton = itemView.findViewById(R.id.fragment_list_item_button_delete);
     }
   }
 

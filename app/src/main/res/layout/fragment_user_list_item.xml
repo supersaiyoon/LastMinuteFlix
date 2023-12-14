@@ -13,18 +13,18 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
-            android:id="@+id/fragment_text_username"
+            android:id="@+id/fragment_list_item_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="16sp"
-            android:text="@string/default_fragment_username" />
+            android:text="@string/fragment_list_item_default" />
 
         <Button
-            android:id="@+id/fragment_button_delete_user"
+            android:id="@+id/fragment_list_item_button_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fragment_button_delete"
+            android:text="@string/fragment_list_item_button_delete"
             android:textSize="14sp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
