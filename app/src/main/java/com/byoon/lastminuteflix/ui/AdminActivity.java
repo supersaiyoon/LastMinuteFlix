@@ -27,6 +27,7 @@ import java.util.List;
 
 /**
  * Displays buttons to perform admin actions.
+ *
  * @author Brian Yoon
  * @since 2023-12-13
  */
@@ -38,11 +39,12 @@ public class AdminActivity extends AppCompatActivity {
   private Button mAddMovieButton;
   private Button mDeleteMovieButton;
   private Button mAddShowtimeButton;
-  GenreDao genreDao;
-  MovieDao movieDao;
+
   List<Genre> genres;
 
   AppDatabase mDatabase = AppDatabase.getInstance(this);
+  GenreDao genreDao = mDatabase.getGenreDao();
+  MovieDao movieDao = mDatabase.getMovieDao();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class AdminActivity extends AppCompatActivity {
             .replace(R.id.fragment_container_admin, new UserListFragment())
             .addToBackStack(null)
             .commit());
+
+    mAddMovieGenreButton.setOnClickListener(v -> showAddGenreDialog());
 
     mAddMovieButton.setOnClickListener(v -> showAddMovieDialog());
 
@@ -96,6 +100,19 @@ public class AdminActivity extends AppCompatActivity {
     alertDialog.show();
   }
 
+  private void showAddGenreDialog() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    LayoutInflater inflater = getLayoutInflater();
+    View dialogView = inflater.inflate(R.layout.dialog_admin_add_genre, null);
+    builder.setView(dialogView);
+
+    builder.setPositiveButton("Save", (dialog, id) -> handleAddGenreSaveAction(dialogView));
+    builder.setNegativeButton("Cancel", (dialog, id) -> dialog.dismiss());
+
+    AlertDialog dialog = builder.create();
+    dialog.show();
+  }
+
   private void showAddMovieDialog() {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
     LayoutInflater inflater = getLayoutInflater();
@@ -104,7 +121,7 @@ public class AdminActivity extends AppCompatActivity {
 
     Spinner genreSpinner = setupGenreSpinner(dialogView);
 
-    builder.setPositiveButton("Save", (dialog, id) -> handleSaveAction(dialogView, genreSpinner));
+    builder.setPositiveButton("Save", (dialog, id) -> handleAddMovieSaveAction(dialogView, genreSpinner));
     builder.setNegativeButton("Cancel", (dialog, id) -> dialog.dismiss());
 
     AlertDialog dialog = builder.create();
@@ -121,7 +138,6 @@ public class AdminActivity extends AppCompatActivity {
   }
 
   private List<String> getGenreNames() {
-    genreDao = mDatabase.getGenreDao();
     genres = genreDao.getAllGenres();
     List<String> genreNames = new ArrayList<>();
     genreNames.add("Select a genre");
@@ -131,7 +147,15 @@ public class AdminActivity extends AppCompatActivity {
     return genreNames;
   }
 
-  private void handleSaveAction(View dialogView, Spinner genreSpinner) {
+  private void handleAddGenreSaveAction(View dialogView) {
+    String genreName = getTextFromEditText(dialogView, R.id.edittext_movie_genre);
+
+    if (validateGenreInput(genreName)) {
+      saveGenreToDatabase(genreName);
+    }
+  }
+
+  private void handleAddMovieSaveAction(View dialogView, Spinner genreSpinner) {
     String movieTitle = getTextFromEditText(dialogView, R.id.edittext_movie_title);
     int selectedGenreIndex = genreSpinner.getSelectedItemPosition();
     String movieDurationString = getTextFromEditText(dialogView, R.id.edittext_movie_duration);
@@ -140,7 +164,7 @@ public class AdminActivity extends AppCompatActivity {
     long genreId = selectedGenreIndex > 0 ? genres.get(selectedGenreIndex - 1).getGenreId() : -1;
     int movieDuration = parseToInt(movieDurationString);
 
-    if (validateInput(movieTitle, movieDuration, movieRating, genreId)) {
+    if (validateMovieInput(movieTitle, movieDuration, movieRating, genreId)) {
       saveMovieToDatabase(genreId, movieTitle, movieDuration, movieRating);
     }
   }
@@ -158,7 +182,22 @@ public class AdminActivity extends AppCompatActivity {
     }
   }
 
-  private boolean validateInput(String title, int duration, String rating, long genreId) {
+  private boolean validateGenreInput(String genreName) {
+    // Verify genre field isn't blank.
+    if (genreName.isEmpty()) {
+      Toast.makeText(this, "Please enter a genre name", Toast.LENGTH_SHORT).show();
+      return false;
+    }
+
+    // Verify genre doesn't already exist.
+    if (genreDao.getGenreByName(genreName) != null) {
+      Toast.makeText(this, "\"" + genreName + "\"" + " already exists", Toast.LENGTH_SHORT).show();
+      return false;
+    }
+    return true;
+  }
+
+  private boolean validateMovieInput(String title, int duration, String rating, long genreId) {
     if (title.isEmpty()) {
       Toast.makeText(this, "Please enter a movie title", Toast.LENGTH_SHORT).show();
       return false;
@@ -172,20 +211,25 @@ public class AdminActivity extends AppCompatActivity {
       Toast.makeText(this, "Please enter a movie rating", Toast.LENGTH_SHORT).show();
       return false;
     }
-    return true;
-  }
-
-  private void saveMovieToDatabase(long genreId, String title, int duration, String rating) {
-    movieDao = mDatabase.getMovieDao();
 
     // Verify movie doesn't already exist.
     Movie existingMovie = movieDao.getMovieByTitle(title);
     if (existingMovie != null) {
       Toast.makeText(this, "\"" + title + "\"" + " already exists", Toast.LENGTH_SHORT).show();
-      return;
+      return false;
     }
+    return true;
+  }
 
-    // Movie doesn't exist, so safe to add.
+  private void saveGenreToDatabase(String genreName) {
+    // Genre doesn't exist, so safe to add.
+    Genre genre = new Genre(genreName);
+    genreDao.insert(genre);
+    Toast.makeText(this, "Genre successfully added", Toast.LENGTH_SHORT).show();
+  }
+
+  private void saveMovieToDatabase(long genreId, String title, int duration, String rating) {
+    // Safe to add movie at this point.
     Movie movie = new Movie(genreId, title, duration, rating);
     movieDao.insert(movie);
     Toast.makeText(this, "Movie successfully added", Toast.LENGTH_SHORT).show();
