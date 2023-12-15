@@ -8,6 +8,8 @@ import androidx.room.Update;
 
 import com.byoon.lastminuteflix.entity.OrderHistory;
 
+import java.util.List;
+
 @Dao
 public interface OrderHistoryDao {
   @Insert
@@ -18,6 +20,9 @@ public interface OrderHistoryDao {
 
   @Delete
   void delete(OrderHistory... orderHistories);
+
+  @Query("SELECT * FROM " + AppDatabase.ORDER_HISTORY_TABLE)
+  List<OrderHistory> getAllOrderHistory();
 
   @Query("SELECT * FROM " + AppDatabase.ORDER_HISTORY_TABLE + " WHERE mOrderHistoryId = :orderHistoryId")
   OrderHistory getOrderHistoryByOrderId(long orderHistoryId);

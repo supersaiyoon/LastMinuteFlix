@@ -8,6 +8,7 @@ import com.byoon.lastminuteflix.ui.BrowseShowtimeActivity;
 import com.byoon.lastminuteflix.ui.CreateAccountActivity;
 import com.byoon.lastminuteflix.ui.LoginActivity;
 import com.byoon.lastminuteflix.ui.MainActivity;
+import com.byoon.lastminuteflix.ui.OrderHistoryActivity;
 
 /**
  * Creates intents to go to different activities.
@@ -41,5 +42,9 @@ public class IntentFactory {
 
   public static Intent createBrowseMoviesActivityIntent(Context context) {
     return new Intent(context, BrowseShowtimeActivity.class);
+  }
+
+  public static Intent createOrderHistoryActivityIntent(Context context) {
+    return new Intent(context, OrderHistoryActivity.class);
   }
 }

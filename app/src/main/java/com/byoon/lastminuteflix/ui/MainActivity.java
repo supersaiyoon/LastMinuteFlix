@@ -102,11 +102,17 @@ public class MainActivity extends AppCompatActivity {
 
     mLogOutButton.setOnClickListener(v -> showLogoutConfirmationDialog());
     mBrowseMoviesButton.setOnClickListener(v -> goToBrowseShowtimeActivity());
+    mOrderHistoryButton.setOnClickListener(v -> goToOrderHistoryActivity());
     mAdminButton.setOnClickListener(v -> goToAdminActivity());
   }
 
   private void goToBrowseShowtimeActivity() {
     Intent intent = IntentFactory.createBrowseMoviesActivityIntent(this);
+    startActivity(intent);
+  }
+
+  private void goToOrderHistoryActivity() {
+    Intent intent = IntentFactory.createOrderHistoryActivityIntent(this);
     startActivity(intent);
   }
 

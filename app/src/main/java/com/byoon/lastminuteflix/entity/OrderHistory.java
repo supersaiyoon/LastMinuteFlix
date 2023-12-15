@@ -26,6 +26,12 @@ public class OrderHistory {
   private long mUserId;
   private long mTheaterId;
 
+  // Helps display order history.
+  String mTheaterName;
+  String mMovieTitle;
+  String mShowtime;
+  double mTicketPrice;
+
   public OrderHistory(long userId, long theaterId) {
     mUserId = userId;
     mTheaterId = theaterId;
@@ -53,5 +59,37 @@ public class OrderHistory {
 
   public void setTheaterId(long theaterId) {
     mTheaterId = theaterId;
+  }
+
+  public String getTheaterName() {
+    return mTheaterName;
+  }
+
+  public void setTheaterName(String theaterName) {
+    mTheaterName = theaterName;
+  }
+
+  public String getMovieTitle() {
+    return mMovieTitle;
+  }
+
+  public void setMovieTitle(String movieTitle) {
+    mMovieTitle = movieTitle;
+  }
+
+  public String getShowtime() {
+    return mShowtime;
+  }
+
+  public void setShowtime(String showtime) {
+    mShowtime = showtime;
+  }
+
+  public double getTicketPrice() {
+    return mTicketPrice;
+  }
+
+  public void setTicketPrice(double ticketPrice) {
+    mTicketPrice = ticketPrice;
   }
 }

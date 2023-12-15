@@ -13,6 +13,9 @@
         android:theme="@style/Theme.LastMinuteFlix"
         tools:targetApi="31">
         <activity
+            android:name=".ui.OrderHistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.BrowseShowtimeActivity"
             android:exported="false" />
         <activity
