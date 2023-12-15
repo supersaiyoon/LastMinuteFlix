@@ -9,8 +9,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -18,25 +18,28 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="8dp" >
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/fragment_order_history_list_theater_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/fragment_list_item_theater_name" />
+                android:text="@string/fragment_list_item_theater_name"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/fragment_order_history_list_movie_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/fragment_list_item_movie_title" />
+                android:text="@string/fragment_list_item_movie_title"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/fragment_order_history_list_showtime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/fragment_list_item_showtime" />
+                android:text="@string/fragment_list_item_showtime"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/fragment_order_history_list_ticket_price"
@@ -50,6 +53,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/fragment_list_item_button_cancel"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

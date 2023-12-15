@@ -26,10 +26,16 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
   private final TheaterDao mTheaterDao;
 
   public OrderHistoryAdapter(Context context, List<OrderHistory> pastOrders) {
+    setHasStableIds(true);  // For RecyclerView to keep track of items more accurately.
     mPastOrders = pastOrders;
     AppDatabase appDatabase = AppDatabase.getInstance(context);
     mOrderHistoryDao = appDatabase.getOrderHistoryDao();
     mTheaterDao = appDatabase.getTheaterDao();
+  }
+
+  @Override
+  public long getItemId(int position) {
+    return mPastOrders.get(position).getOrderHistoryId();
   }
 
   @NonNull
@@ -87,5 +93,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     // Update RecyclerView.
     mPastOrders.remove(position);
     notifyItemRemoved(position);
+    // Update item positions to reflect changes in the list.
+    // App was deleting wrong item until this was added.
+    notifyItemRangeChanged(position, getItemCount());
   }
 }

@@ -8,7 +8,7 @@
     <string name="password_again_hint">Re-enter password</string>
     <string name="log_in_button_text">Log In</string>
     <string name="welcome_text">Welcome</string>
-    <string name="browse_movies_button_text">Browse Movies</string>
+    <string name="browse_movies_button_text">Browse Showtimes</string>
     <string name="shopping_cart_button_text">Shopping Cart</string>
     <string name="order_history_button_text">Order History</string>
     <string name="sign_up_button_text">Sign Up</string>

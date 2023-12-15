@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
     clearUserFromPreferences();
     mUserId = NO_USER_LOGGED_IN;
   }
+
   private void clearUserFromIntent() {
     getIntent().putExtra(KeyConstants.USER_ID_KEY.getKey(), NO_USER_LOGGED_IN);
   }
