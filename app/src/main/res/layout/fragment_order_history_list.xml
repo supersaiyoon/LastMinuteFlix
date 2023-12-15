@@ -21,38 +21,38 @@
             android:padding="8dp">
 
             <TextView
-                android:id="@+id/fragment_browse_showtime_list_theater_name"
+                android:id="@+id/fragment_order_history_list_theater_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/fragment_list_item_theater_name"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/fragment_browse_showtime_list_movie_title"
+                android:id="@+id/fragment_order_history_list_movie_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/fragment_list_item_movie_title"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/fragment_browse_showtime_list_showtime"
+                android:id="@+id/fragment_order_history_list_showtime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/fragment_list_item_showtime"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/fragment_browse_showtime_list_ticket_price"
+                android:id="@+id/fragment_order_history_list_ticket_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/fragment_list_item_ticket_price" />
         </LinearLayout>
 
         <Button
-            android:id="@+id/fragment_browse_showtime_list_buy_button"
+            android:id="@+id/fragment_order_history_list_cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/fragment_list_item_button_buy"
+            android:text="@string/fragment_list_item_button_cancel"
             android:textSize="16sp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

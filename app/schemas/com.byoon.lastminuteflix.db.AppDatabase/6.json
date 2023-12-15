@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 6,
-    "identityHash": "505d6202cebddbca16bf328611c382f6",
+    "identityHash": "e8c60b83ba2837bd4d12ca882c28f011",
     "entities": [
       {
         "tableName": "USER_TABLE",
@@ -220,7 +220,7 @@
       },
       {
         "tableName": "ORDER_HISTORY_TABLE",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mOrderHistoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mUserId` INTEGER NOT NULL, `mTheaterId` INTEGER NOT NULL, FOREIGN KEY(`mUserId`) REFERENCES `USER_TABLE`(`mUserId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`mTheaterId`) REFERENCES `THEATER_TABLE`(`mTheaterId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`mOrderHistoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `mUserId` INTEGER NOT NULL, `mTheaterId` INTEGER NOT NULL, `mTheaterName` TEXT, `mMovieTitle` TEXT, `mShowtime` TEXT, `mTicketPrice` REAL NOT NULL, FOREIGN KEY(`mUserId`) REFERENCES `USER_TABLE`(`mUserId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`mTheaterId`) REFERENCES `THEATER_TABLE`(`mTheaterId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "mOrderHistoryId",
@@ -238,6 +238,30 @@
             "fieldPath": "mTheaterId",
             "columnName": "mTheaterId",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mTheaterName",
+            "columnName": "mTheaterName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mMovieTitle",
+            "columnName": "mMovieTitle",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mShowtime",
+            "columnName": "mShowtime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mTicketPrice",
+            "columnName": "mTicketPrice",
+            "affinity": "REAL",
             "notNull": true
           }
         ],
@@ -288,7 +312,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '505d6202cebddbca16bf328611c382f6')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e8c60b83ba2837bd4d12ca882c28f011')"
     ]
   }
 }

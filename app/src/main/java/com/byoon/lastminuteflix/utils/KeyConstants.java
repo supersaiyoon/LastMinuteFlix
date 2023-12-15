@@ -7,7 +7,6 @@ package com.byoon.lastminuteflix.utils;
  */
 public enum KeyConstants {
   USER_ID_KEY("USER_ID_KEY"),
-  USERNAME_KEY("USERNAME_KEY"),
   PREFERENCES_KEY("PREFERENCES_KEY");
 
   private final String key;

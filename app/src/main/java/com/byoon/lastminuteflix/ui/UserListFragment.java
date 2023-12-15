@@ -1,7 +1,6 @@
 package com.byoon.lastminuteflix.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +28,6 @@ public class UserListFragment extends Fragment {
     // Fetch user data from database
     UserDao userDao = AppDatabase.getInstance(getContext()).getUserDao();
     List<User> users = userDao.getAllUsers();
-
-    // DEBUG: Check the size of user list.
-    Log.d("UserListFragment", "Number of users = " + users.size());
 
     UserAdapter adapter = new UserAdapter(users, userDao);
     userRecyclerView.setAdapter(adapter);
