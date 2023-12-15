@@ -37,10 +37,6 @@ public class MainActivity extends AppCompatActivity {
   private static final int NO_USER_LOGGED_IN = -1;
 
   private TextView mWelcomeMessageTextView;
-  private Button mBrowseMoviesButton;
-  private Button mOrderHistoryButton;
-  private Button mAdminButton;
-  private Button mLogOutButton;
 
   private int mUserId = NO_USER_LOGGED_IN;
   private User mUser;
@@ -89,21 +85,21 @@ public class MainActivity extends AppCompatActivity {
 
   private void initializeViews() {
     mWelcomeMessageTextView = findViewById(R.id.text_welcome);
-    mBrowseMoviesButton = findViewById(R.id.button_browse_movies);
-    mOrderHistoryButton = findViewById(R.id.button_order_history);
-    mAdminButton = findViewById(R.id.button_admin);
-    mLogOutButton = findViewById(R.id.button_logout);
+    Button browseMoviesButton = findViewById(R.id.button_browse_movies);
+    Button orderHistoryButton = findViewById(R.id.button_order_history);
+    Button adminButton = findViewById(R.id.button_admin);
+    Button logOutButton = findViewById(R.id.button_logout);
 
     // Show admin button only if user is admin.
-    mAdminButton.setVisibility(View.INVISIBLE);
+    adminButton.setVisibility(View.INVISIBLE);
     if (mUser.isAdmin()) {
-      mAdminButton.setVisibility(View.VISIBLE);
+      adminButton.setVisibility(View.VISIBLE);
     }
 
-    mLogOutButton.setOnClickListener(v -> showLogoutConfirmationDialog());
-    mBrowseMoviesButton.setOnClickListener(v -> goToBrowseShowtimeActivity());
-    mOrderHistoryButton.setOnClickListener(v -> goToOrderHistoryActivity());
-    mAdminButton.setOnClickListener(v -> goToAdminActivity());
+    logOutButton.setOnClickListener(v -> showLogoutConfirmationDialog());
+    browseMoviesButton.setOnClickListener(v -> goToBrowseShowtimeActivity());
+    orderHistoryButton.setOnClickListener(v -> goToOrderHistoryActivity());
+    adminButton.setOnClickListener(v -> goToAdminActivity());
   }
 
   private void goToBrowseShowtimeActivity() {

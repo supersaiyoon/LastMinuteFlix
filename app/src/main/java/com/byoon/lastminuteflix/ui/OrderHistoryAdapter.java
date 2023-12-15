@@ -24,10 +24,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
   private final List<OrderHistory> mPastOrders;
   private final OrderHistoryDao mOrderHistoryDao;
   private final TheaterDao mTheaterDao;
-  private final Context mContext;
 
   public OrderHistoryAdapter(Context context, List<OrderHistory> pastOrders) {
-    mContext = context;
     mPastOrders = pastOrders;
     AppDatabase appDatabase = AppDatabase.getInstance(context);
     mOrderHistoryDao = appDatabase.getOrderHistoryDao();
