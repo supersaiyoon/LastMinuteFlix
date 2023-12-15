@@ -109,7 +109,7 @@ public class AdminActivity extends AppCompatActivity {
     View dialogView = inflater.inflate(R.layout.dialog_admin_add_genre, null);
     builder.setView(dialogView);
 
-    builder.setPositiveButton("Save", (dialog, id) -> handleAddGenreSaveAction(dialogView));
+    builder.setPositiveButton("Add", (dialog, id) -> handleAddGenreSaveAction(dialogView));
     builder.setNegativeButton("Cancel", (dialog, id) -> dialog.dismiss());
 
     AlertDialog dialog = builder.create();
@@ -124,7 +124,7 @@ public class AdminActivity extends AppCompatActivity {
 
     Spinner genreSpinner = setupGenreSpinner(dialogView);
 
-    builder.setPositiveButton("Save", (dialog, id) -> handleAddMovieSaveAction(dialogView, genreSpinner));
+    builder.setPositiveButton("Add", (dialog, id) -> handleAddMovieSaveAction(dialogView, genreSpinner));
     builder.setNegativeButton("Cancel", (dialog, id) -> dialog.dismiss());
 
     AlertDialog dialog = builder.create();
@@ -139,7 +139,7 @@ public class AdminActivity extends AppCompatActivity {
 
     Spinner movieSpinner = setupMovieSpinner(dialogView);
 
-    builder.setPositiveButton("Save", (dialog, id) -> handleAddTheaterSaveAction(dialogView, movieSpinner));
+    builder.setPositiveButton("Add", (dialog, id) -> handleAddTheaterSaveAction(dialogView, movieSpinner));
     builder.setNegativeButton("Cancel", (dialog, id) -> dialog.dismiss());
 
     AlertDialog dialog = builder.create();
