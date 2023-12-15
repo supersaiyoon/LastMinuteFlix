@@ -72,6 +72,9 @@ public class CreateAccountActivity extends AppCompatActivity {
     User newUser = new User(newUsernameString, newPasswordString, NEW_ACCOUNT_IS_NOT_ADMIN);
     mUserDao.insert(newUser);
 
+    // Display success message.
+    Toast.makeText(CreateAccountActivity.this, "Account created successfully!", Toast.LENGTH_LONG).show();
+
     // Go back to login activity.
     Intent intent = IntentFactory.createLoginActivityIntent(this);
     startActivity(intent);
